@@ -7,10 +7,55 @@ from termcolor import colored
 import db
 
 
-def habits_overview():
-        habits = db.get_habits()
-        headers = ["ID", "Habit Name", "Periodicity", "Creation Date", "Last Completion Date", "Number of Completions"]
-        print(tb.tabulate(habits, headers, tablefmt="fancy_grid"))
+# def habits_overview():
+#     habits = db.get_habits()
+#     headers = ["ID", "Habit Name", "Periodicity", "Creation Date", "Last Completion Date", "Number of Completions"]
+#     print(tb.tabulate(habits, headers, tablefmt="fancy_grid"))
+
+def habit_overview():
+    habits = db.get_habits()
+    habit_list = []
+
+    for habit in habits:
+        habit_list.append(f"{habit[0]}: {habit[1]}")
+    habit_to_analyze = questionary.select("Which habit would you like to analyze?", choices=habit_list).ask()
+    habit_id = habit_to_analyze.split(":")[0].strip()
+
+    periodicity = db.get_habit_periodicity(habit_id)
+    completions = db.get_completions(habit_id)
+
+    habit_completions = []
+    
+    for completion in completions:
+        completion_date = datetime.strptime(completion[1], '%Y-%m-%d %H:%M:%S').date()
+        habit_completions.append([completion_date, "Completed"])
+    
+    print(tb.tabulate(habit_completions, tablefmt="fancy_grid"))
+    print("\n")
+
+    habit_status = []
+
+    for completion in habit_completions:
+        completion_date = completion[0]
+        habit_status.append([completion_date, "Completed"])
+        next_completion_date = completion_date + timedelta(days=periodicity)
+        habit_status.append([next_completion_date, "Incomplete"])
+
+    print(tb.tabulate(habit_status, tablefmt="fancy_grid"))
+    print("\n")
+
+
+def show_habit_completions(habit_id):
+    completions = db.get_completions(habit_id)
+    habit_completions = []
+
+    for completion in completions:
+        completion_date = datetime.strptime(completion[1], '%Y-%m-%d %H:%M:%S').date()
+        habit_completions.append([completion_date, "Completed"])
+    
+    print(tb.tabulate(habit_completions, tablefmt="fancy_grid"))
+    print("\n")
+
 
 
 def habit_status():
@@ -53,7 +98,8 @@ def habit_status():
 
     else:
         print(f"Habit: {habit_name} has not been completed yet.")
-       
+    
+    show_habit_completions(habit_id)
     print("="*35)
     print("Habit: {}".format(habit_name))
     print("Period: {}".format(period))
@@ -61,6 +107,7 @@ def habit_status():
     print("Number of completion(s): {}".format(number_of_completions))
     print("Days since last completion: {}".format(days_since_last_completion))
     print("="*35)
+
 
 
 

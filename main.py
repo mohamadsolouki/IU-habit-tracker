@@ -55,7 +55,7 @@ def main():
     ]
         action = questionary.select("\nWhat would you like to do?", choices=choices).ask()
         if action == 'overview':
-            analyze.habits_overview()
+            analyze.habit_overview()
             ask_to_continue()
 
         elif action == 'status':
