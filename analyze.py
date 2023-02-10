@@ -52,6 +52,96 @@ def show_habit_completions(habit_id):
     print("\n")
 
 
+def habit_status():
+    habits = db.get_habits()
+    habit_list = []
+
+    for habit in habits:
+        habit_list.append(f"{habit[0]}: {habit[1]}")
+    habit_to_analyze = questionary.select("Which habit would you like to analyze?", choices=habit_list).ask()
+    habit_id = habit_to_analyze.split(":")[0].strip()
+
+    periodicity = db.get_habit_periodicity(habit_id)
+    completions = db.get_completions(habit_id)
+
+    habit_completions = []
+    
+    for completion in completions:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S').date()
+        habit_completions.append([completion_date, "Completed"])
+    
+    print(tb.tabulate(habit_completions, tablefmt="fancy_grid"))
+    print("\n")
+
+    habit_status = []
+
+    for completion in habit_completions:
+        completion_date = completion[0]
+        habit_status.append([completion_date, "Completed"])
+        next_completion_date = completion_date + timedelta(days=periodicity)
+        habit_status.append([next_completion_date, "Incomplete"])
+
+    print(tb.tabulate(habit_status, tablefmt="fancy_grid"))
+    print("\n")
+
+
+def habit_streaks():
+    habits = db.get_habits()
+    habit_list = []
+
+    for habit in habits:
+        habit_list.append(f"{habit[0]}: {habit[1]}")
+    habit_to_analyze = questionary.select("Which habit would you like to analyze?", choices=habit_list).ask()
+    habit_id = habit_to_analyze.split(":")[0].strip()
+
+    periodicity = db.get_habit_periodicity(habit_id)
+    completions = db.get_completions(habit_id)
+
+    habit_completions = []
+    
+    for completion in completions:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S').date()
+        habit_completions.append([completion_date, "Completed"])
+    
+    print(tb.tabulate(habit_completions, tablefmt="fancy_grid"))
+    print("\n")
+
+    habit_status = []
+
+    for completion in habit_completions:
+        completion_date = completion[0]
+        habit_status.append([completion_date, "Completed"])
+        next_completion_date = completion_date + timedelta(days=periodicity)
+        habit_status.append([next_completion_date, "Incomplete"])
+
+    print(tb.tabulate(habit_status, tablefmt="fancy_grid"))
+    print("\n")
+
+    streaks = []
+
+    for status in habit_status:
+        if status[1] == "Completed":
+            streaks.append(status[0])
+        else:
+            streaks.append(status[0])
+            streaks.append(status[0])
+    
+    streaks.append(status[0])
+    streaks.append(status[0])
+
+    print(streaks)
+
+    streaks_analysis = []
+
+    for i in range(0, len(streaks), 2):
+        streak_start = streaks[i]
+        streak_end = streaks[i+1]
+        streak_length = streak_end - streak_start
+        streaks_analysis.append([streak_start, streak_end, streak_length.days])
+    
+    print(tb.tabulate(streaks_analysis, tablefmt="fancy_grid"))
+    print("\n")
+
 
 
 def habit_completion_status():
@@ -98,6 +188,53 @@ def habit_completion_status():
                 print(colored("You completed this habit today!", "green"))
             else:
                 print(colored("You did not complete this habit today!", "red"))
+
+
+def habit_completion_status():
+    habits = db.get_habits()
+    habit_list = []
+
+    for habit in habits:
+        habit_list.append(f"{habit[0]}: {habit[1]}")
+    habit_to_analyze = questionary.select("Which habit would you like to analyze?", choices=habit_list).ask()
+    habit_id = habit_to_analyze.split(":")[0].strip()
+
+    periodicity = db.get_habit_periodicity(habit_id)
+    completions = db.get_completions(habit_id)
+
+    habit_completions = []
+    
+    for completion in completions:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S').date()
+        habit_completions.append([completion_date, "Completed"])
+    
+    print(tb.tabulate(habit_completions, tablefmt="fancy_grid"))
+    print("\n")
+
+    habit_status = []
+
+    for completion in habit_completions:
+        completion_date = completion[0]
+        habit_status.append([completion_date, "Completed"])
+        next_completion_date = completion_date + timedelta(days=periodicity)
+        habit_status.append([next_completion_date, "Incomplete"])
+
+    print(tb.tabulate(habit_status, tablefmt="fancy_grid"))
+    print("\n")
+
+    today = date.today()
+    habit_status.append([today, "Incomplete"])
+
+    print(tb.tabulate(habit_status, tablefmt="fancy_grid"))
+    print("\n")
+
+    for status in habit_status:
+        if status[0] == today:
+            if status[1] == "Completed":
+                print(colored("You completed this habit today!", "green"))
+            else:
+                print(colored("You did not complete this habit today!", "red"))
+
 
 
 

@@ -39,83 +39,6 @@ class Habit:
     def get_number_of_completions(self):
         return self.number_of_completions
 
-    def get_longest_streak(self):
-        completions = db.get_completions(self.habit_id)
-        habit_periodicity = db.get_habit_periodicity(self.habit_id)
-        max_streak = 0
-        current_streak = 0
-        # if completions == None:
-        #     current_streak = 0
-        # else:
-        #     current_streak = 1
-
-
-        for i in range(1, len(completions)):
-            date1 = datetime.strptime(completions[i-1][0], '%Y-%m-%d %H:%M:%S').date()
-            date2 = datetime.strptime(completions[i][0], '%Y-%m-%d %H:%M:%S').date()
-            time_delta = (date2 - date1).days
-            
-            if habit_periodicity == 1:
-                if time_delta <= 1:
-                    current_streak += 1
-                    if current_streak > max_streak:
-                        max_streak = current_streak
-
-                else:
-                    current_streak = 0
-                    
-            elif habit_periodicity == 7:
-                if time_delta <= 7:
-                    current_streak += 1
-                    if current_streak > max_streak:
-                        max_streak = current_streak
-                else:
-                    current_streak = 0
-                    
-            elif habit_periodicity == 30:
-                if time_delta <= 30:
-                    current_streak += 1
-                    if current_streak > max_streak:
-                        max_streak = current_streak
-                else:
-                    current_streak = 0
-                    
-        return current_streak, max_streak
-
-    def get_current_streak(self):
-        completions = db.get_completions(self.habit_id)
-        habit_periodicity = db.get_habit_periodicity(self.habit_id)
-        current_streak = 0
-        # if completions == None:
-        #     current_streak = 0
-        # else:
-        #     current_streak = 1
-
-        for i in range(1, len(completions)):
-            date1 = datetime.strptime(completions[i-1][0], '%Y-%m-%d %H:%M:%S').date()
-            date2 = datetime.strptime(completions[i][0], '%Y-%m-%d %H:%M:%S').date()
-            time_delta = (date2 - date1).days
-            
-            if habit_periodicity == 1:
-                if time_delta <= 1:
-                    current_streak += 1
-                else:
-                    current_streak = 0
-                    
-            elif habit_periodicity == 7:
-                if time_delta <= 7:
-                    current_streak += 1
-                else:
-                    current_streak = 0
-                    
-            elif habit_periodicity == 30:
-                if time_delta <= 30:
-                    current_streak += 1
-                else:
-                    current_streak = 0
-                    
-        return current_streak
-
     def get_habit_stats(self):
         habit_stats = []
         habit_stats.append(self.get_habit_name())
@@ -137,6 +60,26 @@ class Habit:
         habit_stats.insert(0, self.get_habit_id())
         habit_stats_table = tb.tabulate([habit_stats], headers=["Habit ID", "Habit Name", "Periodicity", "Creation Date", "Last Completion Date", "Number of Completions", "Current Streak", "Longest Streak"], tablefmt="fancy_grid")
         return habit_stats_table
+
+    def get_current_streak(self):
+        current_streak = 0
+        if self.get_last_completion_date() == date.today():
+            current_streak = 1
+        return current_streak
+    
+    def get_longest_streak(self):
+        longest_streak = 0
+        return longest_streak
+    
+    def mark_habit_as_complete(self):
+        self.last_completion_date = date.today()
+        self.number_of_completions += 1
+        db.update_habit(self)
+
+    def update_habit(self):
+        db.update_habit(self)
+
+    
     
 
 class HabitTracker:
@@ -169,6 +112,8 @@ class HabitTracker:
         for habit in self.habits:
             habit_stats_table.append(habit.get_habit_stats_table_with_id())
         return habit_stats_table
+
+
 
 
 class HabitTrackerCLI:
@@ -229,8 +174,75 @@ class HabitTrackerDB:
         self.conn = self.create_connection()
 
 
-
     
+
+#  def get_longest_streak(self):
+#         completions = db.get_completions(self.habit_id)
+#         habit_periodicity = db.get_habit_periodicity(self.habit_id)
+#         max_streak = 0
+#         current_streak = 0
+
+#         for i in range(1, len(completions)):
+#             date1 = datetime.strptime(completions[i-1][0], '%Y-%m-%d %H:%M:%S').date()
+#             date2 = datetime.strptime(completions[i][0], '%Y-%m-%d %H:%M:%S').date()
+#             time_delta = (date2 - date1).days
+            
+#             if habit_periodicity == 1:
+#                 if time_delta <= 1:
+#                     current_streak += 1
+#                     if current_streak > max_streak:
+#                         max_streak = current_streak
+
+#                 else:
+#                     current_streak = 0
+                    
+#             elif habit_periodicity == 7:
+#                 if time_delta <= 7:
+#                     current_streak += 1
+#                     if current_streak > max_streak:
+#                         max_streak = current_streak
+#                 else:
+#                     current_streak = 0
+                    
+#             elif habit_periodicity == 30:
+#                 if time_delta <= 30:
+#                     current_streak += 1
+#                     if current_streak > max_streak:
+#                         max_streak = current_streak
+#                 else:
+#                     current_streak = 0
+                    
+#         return current_streak, max_streak
+
+#     def get_current_streak(self):
+#         completions = db.get_completions(self.habit_id)
+#         habit_periodicity = db.get_habit_periodicity(self.habit_id)
+#         current_streak = 0
+
+#         for i in range(1, len(completions)):
+#             date1 = datetime.strptime(completions[i-1][0], '%Y-%m-%d %H:%M:%S').date()
+#             date2 = datetime.strptime(completions[i][0], '%Y-%m-%d %H:%M:%S').date()
+#             time_delta = (date2 - date1).days
+            
+#             if habit_periodicity == 1:
+#                 if time_delta <= 1:
+#                     current_streak += 1
+#                 else:
+#                     current_streak = 0
+                    
+#             elif habit_periodicity == 7:
+#                 if time_delta <= 7:
+#                     current_streak += 1
+#                 else:
+#                     current_streak = 0
+                    
+#             elif habit_periodicity == 30:
+#                 if time_delta <= 30:
+#                     current_streak += 1
+#                 else:
+#                     current_streak = 0
+                    
+#         return current_streak
 
 
     # def add_habit(self):
