@@ -1,252 +1,106 @@
 import sqlite3
 
-def create_connection():
-    conn = sqlite3.connect('habits.db')
-    c = conn.cursor()
-    return conn, c
 
-def close_connection(conn):
-    conn.close()
+class Database:
+    """
+    This class is responsible for creating the database and the tables.
+    It also contains methods for connecting and closing the database connection.
+    It is used by the other classes to perform CRUD operations on the database.
+    It is also used to get data from the database.
+    It is used as follows: db = Database() and then db.method() to call a method.
+    """
+    def __init__(self):
+        self.conn = sqlite3.connect('habits.db')
+        self.c = self.conn.cursor()
 
-def init_db():
-    conn, c = create_connection()
-    c.execute("""CREATE TABLE IF NOT EXISTS habits (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        habit_name TEXT NOT NULL,
-        periodicity INTEGER NOT NULL,
-        creation_date DATE NOT NULL,
-        last_completion_date DATE, 
-        number_of_completions INTEGER DEFAULT 0
-        )""")
-    c.execute("""CREATE TABLE IF NOT EXISTS completions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        habit_id INTEGER NOT NULL,
-        completion_date DATE NOT NULL,
-        FOREIGN KEY (habit_id) REFERENCES habits(id)
-        )""")
-    c.execute("""CREATE TABLE IF NOT EXISTS streaks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        habit_id INTEGER NOT NULL,
-        current_streak INTEGER NOT NULL,
-        longest_streak INTEGER NOT NULL,
-        streak_start_date DATE NOT NULL,
-        streak_end_date DATE NOT NULL,
-        FOREIGN KEY (habit_id) REFERENCES habits(id)
-        )""")
-    conn.commit()
-    close_connection(conn)
+    @staticmethod
+    def create_connection():
+        conn = sqlite3.connect('habits.db')
+        c = conn.cursor()
+        return conn, c
 
-def add_habit(habit_name, periodicity):
-    conn, c = create_connection()
-    c.execute("INSERT INTO habits (habit_name, periodicity, creation_date) VALUES (?, ?, ?)", (habit_name, periodicity, date.today()))
-    conn.commit()
-    close_connection(conn)
+    @staticmethod
+    def close_connection(conn):
+        conn.close()
 
-def add_completion(habit_id):
-    conn, c = create_connection()
-    c.execute("INSERT INTO completions (habit_id, completion_date) VALUES (?, ?)", (habit_id, date.today()))
-    c.execute("UPDATE habits SET number_of_completions = number_of_completions + 1 WHERE id=?", (habit_id,))
-    c.execute("UPDATE habits SET last_completion_date = ? WHERE id=?", (date.today(), habit_id))
-    conn.commit()
-    close_connection(conn)
+    def init_db(self):
+        """
+        This method creates the database and the tables if they don't exist.
+        """
+        self.c.execute("""CREATE TABLE IF NOT EXISTS habits (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            habit_name TEXT NOT NULL,
+            periodicity INTEGER NOT NULL,
+            creation_date DATE NOT NULL,
+            last_completion_date DATE,
+            number_of_completions INTEGER DEFAULT 0
+            )""")
+        self.c.execute("""CREATE TABLE IF NOT EXISTS completions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            habit_id INTEGER NOT NULL,
+            completion_date DATE NOT NULL,
+            FOREIGN KEY (habit_id) REFERENCES habits(id)
+            )""")
+        self.c.execute("""CREATE TABLE IF NOT EXISTS streaks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            habit_id INTEGER NOT NULL,
+            current_streak INTEGER NOT NULL,
+            longest_streak INTEGER NOT NULL,
+            FOREIGN KEY (habit_id) REFERENCES habits(id)
+            )""")
+        self.conn.commit()
 
-def delete_habit(habit_id):
-    conn, c = create_connection()
-    c.execute("DELETE FROM habits WHERE id=?", (habit_id,))
-    c.execute("DELETE FROM completions WHERE habit_id=?", (habit_id,))
-    c.execute("DELETE FROM streaks WHERE habit_id=?", (habit_id,))
-    conn.commit()
-    close_connection(conn)
+    def get_habits(self):
+        """
+        This method returns all the habits in the database as a list of tuples.
+        :return: list of tuples containing all the habits in the database
+        """
+        self.c.execute("SELECT * FROM habits")
+        habits = self.c.fetchall()
+        return habits
 
-def delete_completion(habit_id, completion_date):
-    conn, c = create_connection()
-    c.execute("DELETE FROM completions WHERE habit_id=? AND completion_date=?", (habit_id, completion_date))
-    c.execute("UPDATE habits SET number_of_completions = number_of_completions - 1 WHERE id=?", (habit_id,))
-    conn.commit()
-    close_connection(conn)
+    def get_habit(self, habit_id):
+        self.c.execute("SELECT * FROM habits WHERE id=?", (habit_id,))
+        habit = self.c.fetchone()
+        return habit
 
-def delete_all_completions(habit_id):
-    conn, c = create_connection()
-    c.execute("DELETE FROM completions WHERE habit_id=?", (habit_id,))
-    c.execute("UPDATE habits SET number_of_completions = 0 WHERE id=?", (habit_id,))
-    conn.commit()
-    close_connection(conn)
+    def get_habit_completions(self, habit_id):
+        self.c.execute("SELECT completion_date FROM completions WHERE habit_id=? ORDER BY completion_date ASC",
+                       (habit_id,))
+        completions = self.c.fetchall()
+        return completions
 
-def get_habits():
-    conn, c = create_connection()
-    c.execute("SELECT * FROM habits")
-    habits = c.fetchall()
-    close_connection(conn)
-    return habits
+    def get_habit_periodicity(self, habit_id):
+        self.c.execute("SELECT periodicity FROM habits WHERE id=?", (habit_id,))
+        periodicity = self.c.fetchone()[0]
+        return periodicity
 
-def get_habit_name(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT habit_name FROM habits WHERE id=?", (habit_id,))
-    habit_name = c.fetchone()
-    close_connection(conn)
-    return habit_name[0]
+    def get_streaks(self):
+        self.c.execute("SELECT * FROM streaks")
+        streaks = self.c.fetchall()
+        return streaks
 
-def get_habit_periodicity(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT periodicity FROM habits WHERE id=?", (habit_id,))
-    periodicity = c.fetchone()
-    close_connection(conn)
-    return periodicity[0]
+    def add_habit(self, name, periodicity):
+        self.c.execute("""INSERT INTO habits 
+                (habit_name, periodicity, creation_date) 
+                VALUES (?, ?, datetime('now'))
+                """, (name, periodicity,))
+        self.conn.commit()
 
-def get_habit_creation_date(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT creation_date FROM habits WHERE id=?", (habit_id,))
-    creation_date = c.fetchone()
-    close_connection(conn)
-    return creation_date[0]
+    def mark_habit_as_complete(self, habit_id):
+        self.c.execute("""UPDATE habits SET 
+                last_completion_date = datetime('now','localtime'), 
+                number_of_completions = number_of_completions + 1
+                WHERE id = ?
+                """, (habit_id,))
+        self.c.execute("""INSERT INTO completions
+                (habit_id, completion_date)
+                VALUES (?, datetime('now','localtime'))
+                """, (habit_id,))
+        self.conn.commit()
 
-def get_habit_last_completion_date(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT last_completion_date FROM habits WHERE id=?", (habit_id,))
-    last_completion_date = c.fetchone()
-    close_connection(conn)
-    return last_completion_date[0] 
-
-def get_habit_number_of_completions(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT number_of_completions FROM habits WHERE id=?", (habit_id,))
-    number_of_completions = c.fetchone()
-    close_connection(conn)
-    return number_of_completions[0]
-
-
-def get_completions(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT completion_date FROM completions WHERE habit_id=? ORDER BY completion_date ASC", (habit_id,))
-    completions = c.fetchall()
-    close_connection(conn)
-    return completions
-
-
-def get_habits():
-    conn, c = create_connection()
-    c.execute("SELECT * FROM habits")
-    habits = c.fetchall()
-    close_connection(conn)
-    return habits
-
-
-def get_habit_periodicity(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT periodicity FROM habits WHERE id=?", (habit_id,))
-    periodicity = c.fetchone()
-    close_connection(conn)
-    return periodicity[0]
-
-
-def get_habit_name(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT habit_name FROM habits WHERE id=?", (habit_id,))
-    habit_name = c.fetchone()
-    close_connection(conn)
-    return habit_name[0]
-
-
-def get_habit_creation_date(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT creation_date FROM habits WHERE id=?", (habit_id,))
-    creation_date = c.fetchone()
-    close_connection(conn)
-    return creation_date[0]
-
-
-def get_habit_last_completion_date(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT last_completion_date FROM habits WHERE id=?", (habit_id,))
-    last_completion_date = c.fetchone()
-    close_connection(conn)
-    return last_completion_date[0]
-
-
-def get_habit_number_of_completions(habit_id):
-    conn, c = create_connection()
-    c.execute("SELECT number_of_completions FROM habits WHERE id=?", (habit_id,))
-    number_of_completions = c.fetchone()
-    close_connection(conn)
-    return number_of_completions[0]
-
-
-def add_habit(habit_name, periodicity):
-    conn, c = create_connection()
-    c.execute("INSERT INTO habits (habit_name, periodicity, creation_date) VALUES (?, ?, date('now'))", (habit_name, periodicity))
-    conn.commit()
-    close_connection(conn)
-
-
-def add_completion(habit_id):
-    conn, c = create_connection()
-    c.execute("INSERT INTO completions (habit_id, completion_date) VALUES (?, date('now'))", (habit_id,))
-    c.execute("UPDATE habits SET number_of_completions = number_of_completions + 1, last_completion_date = date('now') WHERE id=?", (habit_id,))
-    conn.commit()
-    close_connection(conn)
-
-
-def delete_habit(habit_id):
-    conn, c = create_connection()
-    c.execute("DELETE FROM habits WHERE id=?", (habit_id,))
-    conn.commit()
-    close_connection(conn)
-
-
-def delete_completion(habit_id, completion_date):
-    conn, c = create_connection()
-    c.execute("DELETE FROM completions WHERE habit_id=? AND completion_date=?", (habit_id, completion_date))
-    c.execute("UPDATE habits SET number_of_completions = number_of_completions - 1 WHERE id=?", (habit_id,))
-    conn.commit()
-    close_connection(conn)
-
-
-# def create_connection():
-#     conn = sqlite3.connect('habits.db')
-#     c = conn.cursor()
-#     return conn, c
-
-# def close_connection(conn):
-#     conn.close()
-
-# def init_db():
-#     conn, c = create_connection()
-#     c.execute("""CREATE TABLE IF NOT EXISTS habits (
-#         id INTEGER PRIMARY KEY AUTOINCREMENT,
-#         habit_name TEXT NOT NULL,
-#         periodicity INTEGER NOT NULL,
-#         creation_date DATE NOT NULL,
-#         last_completion_date DATE, 
-#         number_of_completions INTEGER DEFAULT 0
-#         )""")
-#     c.execute("""CREATE TABLE IF NOT EXISTS completions (
-#         id INTEGER PRIMARY KEY AUTOINCREMENT,
-#         habit_id INTEGER NOT NULL,
-#         completion_date DATE NOT NULL,
-#         FOREIGN KEY (habit_id) REFERENCES habits(id)
-#         )""")
-#     conn.commit()
-#     close_connection(conn)
-
-
-# def get_completions(habit_id):
-#     conn, c = create_connection()
-#     c.execute("SELECT completion_date FROM completions WHERE habit_id=? ORDER BY completion_date ASC", (habit_id,))
-#     completions = c.fetchall()
-#     close_connection(conn)
-#     return completions
-
-
-# def get_habits():
-#     conn, c = create_connection()
-#     c.execute("SELECT * FROM habits")
-#     habits = c.fetchall()
-#     close_connection(conn)
-#     return habits
-
-
-# def get_habit_periodicity(habit_id):
-#     conn, c = create_connection()
-#     c.execute("SELECT periodicity FROM habits WHERE id=?", (habit_id,))
-#     periodicity = c.fetchone()[0]
-#     return periodicity
+    def delete_habit(self, habit_id):
+        self.c.execute("DELETE FROM habits WHERE id = ?", (habit_id,))
+        self.c.execute("DELETE FROM completions WHERE habit_id = ?", (habit_id,))
+        self.c.execute("DELETE FROM streaks WHERE habit_id = ?", (habit_id,))
+        self.conn.commit()
