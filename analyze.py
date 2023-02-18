@@ -1,9 +1,7 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 import questionary
 import tabulate as tb
 import termcolor
-from dateutil.utils import today
-
 import db
 
 db = db.Database()
@@ -63,10 +61,9 @@ def habit_status():
     habit = db.get_habit(habit_id)
     habit_name = habit[1]
     period = habit[2]
-    creation_date = habit[3]
     last_completion_date = habit[4]
     if last_completion_date:
-        last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d %H:%M:%S').date()
+        last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
     number_of_completions = habit[5]
     days_since_last_completion = 0
 
@@ -129,38 +126,6 @@ def show_habit_streaks():
     print(tb.tabulate(show_list, headers, tablefmt="fancy_grid"))
 
 
-def calculate_streak(habit_id):
-    completions = db.get_habit_completions(habit_id)
-    habit_periodicity = db.get_habit_periodicity(habit_id)
-    habit_completions = []
-
-    for completion in completions:
-        completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S').date()
-        habit_completions.append(completion_date)
-
-    habit_completions.sort()
-    current_streak = 0
-    max_streak = 0
-    for i in range(len(habit_completions)):
-        if i == 0:
-            current_streak = 1
-            max_streak = 1
-            continue
-        if (habit_completions[i] - habit_completions[i - 1]).days < habit_periodicity:
-            current_streak += 1
-            if current_streak > max_streak:
-                max_streak = current_streak
-        else:
-            current_streak = 1
-
-    return current_streak, max_streak
-
-
-
-
-
-
-
 def show_habit_completions(habit_id):
     completions = db.get_habit_completions(habit_id)
     habit_completions = []
@@ -171,3 +136,62 @@ def show_habit_completions(habit_id):
 
     print(tb.tabulate(habit_completions, tablefmt="fancy_grid"))
     print("\n")
+
+
+# def calculate_streak(habit_id):
+#     completions = db.get_habit_completions(habit_id)
+#     habit_periodicity = db.get_habit_periodicity(habit_id)
+#     habit_completions = []
+#
+#     for completion in completions:
+#         completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S').date()
+#         habit_completions.append(completion_date)
+#
+#     habit_completions = sorted(habit_completions)
+#     current_streak = 0
+#     max_streak = 0
+#
+#     for i in range(len(habit_completions)):
+#         if len(habit_completions) == 1:
+#             current_streak = 1
+#             max_streak = 1
+#         elif (habit_completions[i] - habit_completions[i - 1]).days <= habit_periodicity:
+#             current_streak += 1
+#             if current_streak > max_streak:
+#                 max_streak = current_streak
+#         else:
+#             current_streak = 0
+#
+#     return current_streak, max_streak
+
+
+# def calculate_streak(habit_id):
+#     completions = db.get_habit_completions(habit_id)
+#     habit_periodicity = db.get_habit_periodicity(habit_id)
+#     habit_completions = []
+#
+#     for completion in completions:
+#         completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S').date()
+#         habit_completions.append(completion_date)
+#
+#     habit_completions.sort()
+#     current_streak = 0
+#     max_streak = 0
+#
+#     if len(habit_completions) == 1:
+#         current_streak = 1
+#         max_streak = 1
+#     else:
+#         for i in range(len(habit_completions)):
+#             if i == 0:
+#                 current_streak = 1
+#                 max_streak = 1
+#                 continue
+#             if (habit_completions[i] - habit_completions[i - 1]).days < habit_periodicity:
+#                 current_streak += 1
+#                 if current_streak > max_streak:
+#                     max_streak = current_streak
+#             else:
+#                 current_streak = 1
+#     return current_streak, max_streak
+

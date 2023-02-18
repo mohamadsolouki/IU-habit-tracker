@@ -12,6 +12,7 @@ class Database:
     def __init__(self):
         self.conn = sqlite3.connect('habits.db')
         self.c = self.conn.cursor()
+        self.init_db()
 
     @staticmethod
     def create_connection():
@@ -80,28 +81,3 @@ class Database:
         streaks = self.c.fetchall()
         return streaks
 
-    #
-    # def add_habit(self, name, periodicity):
-    #     self.c.execute("""INSERT INTO habits
-    #             (habit_name, periodicity, creation_date)
-    #             VALUES (?, ?, datetime('now'))
-    #             """, (name, periodicity,))
-    #     self.conn.commit()
-    #
-    # def mark_habit_as_complete(self, habit_id):
-    #     self.c.execute("""UPDATE habits SET
-    #             last_completion_date = datetime('now','localtime'),
-    #             number_of_completions = number_of_completions + 1
-    #             WHERE id = ?
-    #             """, (habit_id,))
-    #     self.c.execute("""INSERT INTO completions
-    #             (habit_id, completion_date)
-    #             VALUES (?, datetime('now','localtime'))
-    #             """, (habit_id,))
-    #     self.conn.commit()
-    #
-    # def delete_habit(self, habit_id):
-    #     self.c.execute("DELETE FROM habits WHERE id = ?", (habit_id,))
-    #     self.c.execute("DELETE FROM completions WHERE habit_id = ?", (habit_id,))
-    #     self.c.execute("DELETE FROM streaks WHERE habit_id = ?", (habit_id,))
-    #     self.conn.commit()

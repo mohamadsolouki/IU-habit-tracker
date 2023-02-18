@@ -1,4 +1,6 @@
 import sys
+from datetime import date
+
 import questionary
 import termcolor
 import analyze
@@ -35,15 +37,43 @@ def main():
     action = questionary.select("\nWhat would you like to do?", choices=choices).ask()
 
     if action == 'add':
-        hb.add_habit()
+        name = questionary.text("What is the habit name?").ask()
+        periodicity = questionary.select("What is the habit periodicity?", choices=[
+            {"name": "Daily", "value": 1},
+            {"name": "Weekly", "value": 7},
+            {"name": "Monthly", "value": 30}
+        ]).ask()
+        hb.add_habit(name, periodicity)
         ask_to_continue()
 
     elif action == 'complete':
-        hb.mark_habit_as_complete()
+        habits = db.get_habits()
+        habit_list = []
+        if len(habits) == 0:
+            print(termcolor.colored("There are no habits to mark as complete!", "red"))
+            return
+        for habit in habits:
+            habit_list.append(f"{habit[0]}: {habit[1]}")
+        habit_to_mark = questionary.select("Which habit would you like to mark?", choices=habit_list).ask()
+        habit_id = habit_to_mark.split(":")[0].strip()
+        completion_date = date.today()
+        hb.mark_habit_as_complete(habit_id, completion_date)
         ask_to_continue()
 
     elif action == 'delete':
-        hb.delete_habit()
+        habits = db.get_habits()
+        habit_list = []
+        if len(habits) == 0:
+            print(termcolor.colored("There are no habits to delete!", "red"))
+            return
+        for habit in habits:
+            habit_list.append(f"{habit[0]}: {habit[1]}")
+        habit_list.append({"name": "Go back to main menu", "value": "back"})
+        habit_to_delete = questionary.select("Which habit would you like to delete?", choices=habit_list).ask()
+        if habit_to_delete == "back":
+            return
+        habit_id = habit_to_delete.split(":")[0].strip()
+        hb.delete_habit(habit_id)
         ask_to_continue()
 
     elif action == 'todo':
