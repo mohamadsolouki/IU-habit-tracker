@@ -51,16 +51,16 @@ def habit_status():
     habits = db.get_habits()
     habit_list = []
 
+    if len(habits) == 0:
+        print(termcolor.colored("You don't have any habits yet!", "red"))
+        return
+
     for habit in habits:
         habit_list.append(f"{habit[0]}: {habit[1]}")
     habit_to_mark = questionary.select("Which habit would you like to analyze?", choices=habit_list).ask()
     habit_id = habit_to_mark.split(":")[0].strip()
 
-    conn = db.create_connection()
-    conn, c = conn
-    c.execute("SELECT * FROM habits WHERE id=?", (habit_id,))
-    habit = c.fetchone()
-
+    habit = db.get_habit(habit_id)
     habit_name = habit[1]
     period = habit[2]
     creation_date = habit[3]
@@ -130,48 +130,35 @@ def show_habit_streaks():
 
 
 def calculate_streak(habit_id):
-    """
-    This function calculates the current and max streak of a habit.
-    :param: habit_id: The id of the habit.
-    :return: max_streak and current_streak of the habit.
-    """
     completions = db.get_habit_completions(habit_id)
     habit_periodicity = db.get_habit_periodicity(habit_id)
-    max_streak = 0
+    habit_completions = []
+
+    for completion in completions:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S').date()
+        habit_completions.append(completion_date)
+
+    habit_completions.sort()
     current_streak = 0
-
-    for i in range(1, len(completions)):
-        date1 = datetime.strptime(completions[i - 1][0], '%Y-%m-%d %H:%M:%S').date()
-        date2 = datetime.strptime(completions[i][0], '%Y-%m-%d %H:%M:%S').date()
-        time_delta = (date2 - date1).days
-
-        if habit_periodicity == 1:
-            if time_delta <= 1:
-                current_streak += 1
-                if current_streak > max_streak:
-                    max_streak = current_streak
-
-            else:
-                current_streak = 0
-
-        elif habit_periodicity == 7:
-            if time_delta <= 7:
-                current_streak += 1
-                if current_streak > max_streak:
-                    max_streak = current_streak
-            else:
-                current_streak = 0
-
-        elif habit_periodicity == 30:
-            if time_delta <= 30:
-                current_streak += 1
-                if current_streak > max_streak:
-                    max_streak = current_streak
-            else:
-                current_streak = 0
-
+    max_streak = 0
+    for i in range(len(habit_completions)):
+        if i == 0:
+            current_streak = 1
+            max_streak = 1
+            continue
+        if (habit_completions[i] - habit_completions[i - 1]).days < habit_periodicity:
+            current_streak += 1
+            if current_streak > max_streak:
+                max_streak = current_streak
+        else:
+            current_streak = 1
 
     return current_streak, max_streak
+
+
+
+
+
 
 
 def show_habit_completions(habit_id):
