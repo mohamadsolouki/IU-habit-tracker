@@ -42,6 +42,9 @@ class Habit:
         """
         habits = db.get_habits()
         habit_list = []
+        if len(habits) == 0:
+            print(termcolor.colored("There are no habits to mark as complete!", "red"))
+            return
         for habit in habits:
             habit_list.append(f"{habit[0]}: {habit[1]}")
         habit_to_mark = questionary.select("Which habit would you like to mark?", choices=habit_list).ask()
@@ -73,6 +76,9 @@ class Habit:
         """
         habits = db.get_habits()
         habit_list = []
+        if len(habits) == 0:
+            print(termcolor.colored("There are no habits to delete!", "red"))
+            return
         for habit in habits:
             habit_list.append(f"{habit[0]}: {habit[1]}")
         habit_list.append({"name": "Go back to main menu", "value": "back"})
@@ -82,9 +88,12 @@ class Habit:
         self.id = habit_to_delete.split(":")[0].strip()
         conn = db.create_connection()
         conn, c = conn
-        c.execute("DELETE FROM habits WHERE id=?", (self.id,))
+        c.execute("""DELETE FROM habits WHERE id = ?""", (self.id,))
+        c.execute("""DELETE FROM streaks WHERE habit_id = ?""", (self.id,))
+        c.execute("""DELETE FROM completions WHERE habit_id = ?""", (self.id,))
         conn.commit()
         conn.close()
+
         print(termcolor.colored("Habit deleted!", "red"))
 
 
