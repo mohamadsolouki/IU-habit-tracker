@@ -43,7 +43,8 @@ def main():
             {"name": "Weekly", "value": 7},
             {"name": "Monthly", "value": 30}
         ]).ask()
-        hb.add_habit(name, periodicity)
+        creation_date = date.today()
+        hb.add_habit(name, periodicity, creation_date)
         ask_to_continue()
 
     elif action == 'complete':
@@ -85,6 +86,7 @@ def main():
             {"name": "Habits overview", "value": "overview"},
             {"name": "Single habit status", "value": "status"},
             {"name": "Streaks analysis", "value": "streak"},
+            {"name": "All completions of a habit", "value": "all"},
             {"name": "Go back to main menu", "value": "back"}]
 
         action = questionary.select("\nWhat would you like to do?", choices=choices).ask()
@@ -98,6 +100,22 @@ def main():
 
         elif action == 'streak':
             analyze.show_habit_streaks()
+            ask_to_continue()
+
+        elif action == 'all':
+            habits = db.get_habits()
+            habit_list = []
+            if len(habits) == 0:
+                print(termcolor.colored("There are no habits to delete!", "red"))
+                return
+            for habit in habits:
+                habit_list.append(f"{habit[0]}: {habit[1]}")
+            habit_list.append({"name": "Go back to main menu", "value": "back"})
+            selected_habit = questionary.select("Which habit would you like to delete?", choices=habit_list).ask()
+            if selected_habit == "back":
+                return
+            habit_id = selected_habit.split(":")[0].strip()
+            analyze.show_habit_completions(habit_id)
             ask_to_continue()
 
         elif action == 'back':
