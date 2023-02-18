@@ -6,17 +6,17 @@ db = db.Database()
 
 
 class Habit:
-    def __init__(self, habit_id=None, name=None, periodicity=None, completion_date=None):
+    def __init__(self, habit_id, name, periodicity, creation_date, completion_date):
         self.habit_id = habit_id
         self.name = name
         self.periodicity = periodicity
+        self.creation_date = creation_date
         self.completion_date = completion_date
 
-    def add_habit(self, name, periodicity):
+    def add_habit(self, name, periodicity, creation_date):
         db.__init__()
-        today = date.today()
         db.c.execute("INSERT INTO habits (habit_name, periodicity, creation_date) VALUES (?, ?, ?)",
-                     (name, periodicity, today))
+                     (name, periodicity, creation_date))
         self.habit_id = db.c.lastrowid
         db.c.execute("INSERT INTO streaks (habit_id, current_streak, longest_streak) VALUES (?, ?, ?)",
                      (self.habit_id, 0, 0))
@@ -26,6 +26,12 @@ class Habit:
 
     def mark_habit_as_complete(self, habit_id, completion_date):
         db.__init__()
+        last_completion_date = db.get_habit(habit_id)[4]
+        last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
+        periodicity = db.get_habit_periodicity(habit_id)
+        if (completion_date - last_completion_date).days <= periodicity:
+            print(termcolor.colored("Habit has already been marked as complete within it's period!", "red"))
+            return
         db.c.execute("INSERT INTO completions (habit_id, completion_date) VALUES (?, ?)", (habit_id, completion_date))
         db.c.execute(
             "UPDATE habits SET last_completion_date=?, number_of_completions=number_of_completions+1 WHERE id=?",
@@ -67,9 +73,9 @@ class Habit:
         This method deletes a habit from the database.
         """
         db.__init__()
-        db.c.execute("""DELETE FROM habits WHERE id = ?""", (self.habit_id,))
-        db.c.execute("""DELETE FROM streaks WHERE habit_id = ?""", (self.habit_id,))
-        db.c.execute("""DELETE FROM completions WHERE habit_id = ?""", (self.habit_id,))
+        db.c.execute("""DELETE FROM habits WHERE id = ?""", (habit_id,))
+        db.c.execute("""DELETE FROM streaks WHERE habit_id = ?""", (habit_id,))
+        db.c.execute("""DELETE FROM completions WHERE habit_id = ?""", (habit_id,))
         db.conn.commit()
         db.conn.close()
         print(termcolor.colored("Habit deleted!", "red"))
