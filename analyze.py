@@ -131,11 +131,10 @@ def show_habit_completions(habit_id):
     habit_completions = []
 
     for completion in completions:
-        completion_date = datetime.strptime(completion[1], '%Y-%m-%d %H:%M:%S').date()
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
         habit_completions.append([completion_date, "Completed"])
 
-    print(tb.tabulate(habit_completions, tablefmt="fancy_grid"))
-    print("\n")
+    print(tb.tabulate(habit_completions, tablefmt="double_grid"))
 
 
 # def calculate_streak(habit_id):
