@@ -57,7 +57,7 @@ def main():
             habit_list.append(f"{habit[0]}: {habit[1]}")
         habit_to_mark = questionary.select("Which habit would you like to mark?", choices=habit_list).ask()
         habit_id = habit_to_mark.split(":")[0].strip()
-        completion_date = date.today()
+        completion_date = date.today().strftime('%Y-%m-%d')
         hb.mark_habit_as_complete(habit_id, completion_date)
         ask_to_continue()
 

@@ -81,3 +81,7 @@ class Database:
         streaks = self.c.fetchall()
         return streaks
 
+    def get_streaks_for_habit(self, habit_id):
+        self.c.execute("SELECT * FROM streaks WHERE habit_id=?", (habit_id,))
+        streaks = self.c.fetchone()
+        return streaks
