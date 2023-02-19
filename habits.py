@@ -6,7 +6,7 @@ db = db.Database()
 
 
 class Habit:
-    def __init__(self, habit_id, name, periodicity, creation_date, completion_date):
+    def __init__(self, habit_id=None, name=None, periodicity=None, creation_date=None, completion_date=None):
         self.habit_id = habit_id
         self.name = name
         self.periodicity = periodicity
@@ -27,11 +27,12 @@ class Habit:
     def mark_habit_as_complete(self, habit_id, completion_date):
         db.__init__()
         last_completion_date = db.get_habit(habit_id)[4]
-        last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
         periodicity = db.get_habit_periodicity(habit_id)
-        if (completion_date - last_completion_date).days <= periodicity:
-            print(termcolor.colored("Habit has already been marked as complete within it's period!", "red"))
-            return
+        if last_completion_date:
+            last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
+            if (completion_date - last_completion_date).days <= periodicity:
+                print(termcolor.colored("Habit has already been marked as complete within it's period!", "red"))
+                return
         db.c.execute("INSERT INTO completions (habit_id, completion_date) VALUES (?, ?)", (habit_id, completion_date))
         db.c.execute(
             "UPDATE habits SET last_completion_date=?, number_of_completions=number_of_completions+1 WHERE id=?",
