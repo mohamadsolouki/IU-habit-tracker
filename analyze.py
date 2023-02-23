@@ -106,6 +106,10 @@ def show_habit_streaks():
     """
     habits = db.get_habits()
     streaks = db.get_streaks()
+    for streak in streaks:
+        habit_id = streak[1]
+        db.update_streak(habit_id)
+    streaks = db.get_streaks()
     headers = ["habit_id", "habit_name", "periodicity", "current_streak", "max_streak"]
     show_list = []
     streak_list = []

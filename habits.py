@@ -38,12 +38,17 @@ class Habit:
         self.completion_date = datetime.strptime(completion_date, '%Y-%m-%d').date()
         last_completion_date = db.get_habit(self.habit_id)[4]
         periodicity = db.get_habit_periodicity(self.habit_id)
-        # Check if habit has been completed within the period
+        # Check if habit has been completed within the period and ask user if they want to mark it as complete anyway
         if last_completion_date:
             last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
             if (self.completion_date - last_completion_date).days < periodicity:
-                print(termcolor.colored("Habit has already been marked as complete within it's period!", "red"))
-                return
+                print(termcolor.colored("Habit has already been completed within the period. Mark it as complete "
+                                        "anyway?",
+                                        "red"))
+                answer = input("y/n: ")
+                if answer.lower() != "y":
+                    return
+
         # Add completion to database
         db.c.execute("INSERT INTO completions (habit_id, completion_date) VALUES (?, ?)",
                      (self.habit_id, self.completion_date))
