@@ -10,6 +10,7 @@ class Database:
     It is also used to get data from the database.
     It is used as follows: db = Database() and then db.method() to call a method.
     """
+
     def __init__(self):
         self.conn = sqlite3.connect('habits.db')
         self.c = self.conn.cursor()
@@ -96,3 +97,24 @@ class Database:
         self.c.execute("UPDATE streaks SET current_streak=0 WHERE habit_id=?", (habit_id,))
         self.conn.commit()
 
+    def get_completions_in_range(self, habit_id, start_date, end_date):
+        """
+            Returns a list of completion dates for this habit within the specified range.
+
+            Args:
+                habit_id
+                start_date (str): Start date in the format YYYY-MM-DD.
+                end_date (str): End date in the format YYYY-MM-DD.
+
+            Returns:
+                list: A list of completion dates as strings in the format YYYY-MM-DD.
+            """
+        self.c.execute("""
+                    SELECT completion_date
+                    FROM completions
+                    WHERE habit_id=? AND completion_date BETWEEN ? AND ?
+                    ORDER BY completion_date ASC
+                """, (habit_id, start_date, end_date))
+        rows = self.c.fetchall()
+        completions = [row[0] for row in rows]
+        return completions

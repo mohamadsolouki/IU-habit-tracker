@@ -114,21 +114,3 @@ class Habit:
         db.conn.commit()
         db.conn.close()
         print(termcolor.colored("Habit deleted!", "red"))
-
-    # Check if the habit has been completed within the period to reset the streak
-    def update_streak(self, habit_id):
-        streaks = db.get_streaks()
-        habit = db.get_habit(habit_id)
-        for streak in streaks:
-            habit_id = streak[1]
-            period = habit[2]
-            last_completion_date = db.get_last_completion_date(habit_id)
-            if last_completion_date:
-                last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
-                days_since_last_completion = (date.today() - last_completion_date).days
-                if period == 1 and days_since_last_completion > 1:
-                    db.reset_streak(self.habit_id)
-                elif period == 7 and days_since_last_completion > 7:
-                    db.reset_streak(self.habit_id)
-                elif period == 30 and days_since_last_completion > 30:
-                    db.reset_streak(self.habit_id)
