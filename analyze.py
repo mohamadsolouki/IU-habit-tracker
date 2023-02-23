@@ -3,8 +3,10 @@ import questionary
 import tabulate as tb
 import termcolor
 import db
+import habits as hb
 
 db = db.Database()
+hb = hb.Habit()
 
 
 def habits_todo():
@@ -108,7 +110,8 @@ def show_habit_streaks():
     streaks = db.get_streaks()
     for streak in streaks:
         habit_id = streak[1]
-        db.update_streak(habit_id)
+        if habits[4] != 0:
+            hb.update_streak(habit_id)
     streaks = db.get_streaks()
     headers = ["habit_id", "habit_name", "periodicity", "current_streak", "max_streak"]
     show_list = []

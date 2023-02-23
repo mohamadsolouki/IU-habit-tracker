@@ -87,29 +87,12 @@ class Database:
         streaks = self.c.fetchone()
         return streaks
 
+    def get_last_completion_date(self, habit_id):
+        self.c.execute("SELECT last_completion_date FROM habits WHERE id=?", (habit_id,))
+        last_completion_date = self.c.fetchone()[0]
+        return last_completion_date
+
     def reset_streak(self, habit_id):
-        self.c.execute("UPDATE streaks SET current_streak=0")
+        self.c.execute("UPDATE streaks SET current_streak=0 WHERE habit_id=?", (habit_id,))
         self.conn.commit()
-
-    # Check if the habit has been completed within the period to reset the streak
-    def update_streak(self, habit_id):
-        streaks = self.get_streaks()
-        for streak in streaks:
-            habit_id = streak[1]
-            current_streak = streak[2]
-            max_streak = streak[3]
-            habit = self.get_habit(habit_id)
-            last_completion_date = habit[4]
-            if last_completion_date:
-                last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
-            period = habit[2]
-            if last_completion_date is not None:
-                days_since_last_completion = (date.today() - last_completion_date).days
-                if period == 1 and days_since_last_completion > 1:
-                    self.reset_streak(habit_id)
-                elif period == 7 and days_since_last_completion > 7:
-                    self.reset_streak(habit_id)
-                elif period == 30 and days_since_last_completion > 30:
-                    self.reset_streak(habit_id)
-
 
