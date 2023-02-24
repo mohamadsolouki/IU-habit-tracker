@@ -157,193 +157,20 @@ def update_streak(habit_id):
 
 def show_habit_completions(habit_id):
     """
-    This function shows a calendar based on last week, last month or specific month in the last year and marks the days
-    when the habit has been completed.
-    :param habit_id: The id of the habit. (int)
-    'last_month', or 'YYYY-MM' where YYYY is the year and MM is the month. (str)
+    This function get the completions of a habit and prints the calendar of this month to show the completion dates
+    on calendar with a colored background.
     """
-    period = questionary.select("Which period would you like to analyze?", choices=["last week", "last month"]).ask()
-    # Determine the start and end dates based on the period
-    if period == "last week":
-        start_date = date.today() - timedelta(days=7)
-        end_date = date.today()
-    elif period == "last month":
-        start_date = date.today() - timedelta(days=30)
-        end_date = date.today()
-    else:
-        start_date = date.today() - timedelta(days=365)
-        end_date = date.today()
-
-    start_date = datetime.strftime(start_date, '%Y-%m-%d')
-    end_date = datetime.strftime(end_date, '%Y-%m-%d')
-
-    # Get the completion dates for the habit
-    rows = db.get_completions_in_range(habit_id, start_date, end_date)
-
-
-    # Create a dictionary to store the completion dates as keys and values as True
-    completion_dates = {}
-    for row in rows:
-        completion_date = row[0]
-        completion_dates[completion_date] = True
+    completion = db.get_habit_completions(habit_id)
 
     # Get the current year and month
-    year = start_date.year
-    month = start_date.month
+    now = datetime.now()
+    year = now.year
+    month = now.month
 
-    # Create a calendar for the current month
-    cal = calendar.monthcalendar(year, month)
-
-    # Print the header
-    print(calendar.month_name[month], year)
-
-    # Print the days of the week
-    print("Mo Tu We Th Fr Sa Su")
-
-    # Loop over each week in the calendar
-    for week in cal:
-        # Loop over each day in the week
-        for day in week:
-            if day == 0:
-                # If the day is 0, print a space
-                print("  ", end="")
-            else:
-                # If the day is not 0, print the day number
-                day_str = str(day).rjust(2)
-                # Check if the day has a completion
-                if f"{year}-{month:02}-{day_str}" in completion_dates:
-                    # If it does, print an X
-                    print(f"\033[1;32;40m{day_str}\033[0m", end="")
-                else:
-                    # If it doesn't, print the day number
-                    print(day_str, end="")
-                print(" ", end="")
-        print("")
+    # print calendar and change the calendar days background color of the days that the habit has been completed
+    print(calendar.
 
 
 
 
 
-
-
-
-
-
-
-# def show_habit_completions(habit_id):
-#     """
-#     This function shows a calendar based on last week, last month or last year and marks the days when the habit has been
-#     completed.
-#     :param habit_id: The id of the habit. (int)
-#     """
-#     rows = db.get_habit_completions(habit_id)
-#
-#     # Create a dictionary to store the completion dates as keys and values as True
-#     completion_dates = {}
-#     for row in rows:
-#         completion_date = row[0]
-#         completion_dates[completion_date] = True
-#
-#     # Get the current year and month
-#     now = datetime.now()
-#     year = now.year
-#     month = now.month
-#
-#     # Create a calendar for the current month
-#     cal = calendar.monthcalendar(year, month)
-#
-#     # Print the header
-#     print(calendar.month_name[month], year)
-#
-#     # Print the days of the week
-#     print("Mo Tu We Th Fr Sa Su")
-#
-#     # Loop over each week in the calendar
-#     for week in cal:
-#         # Loop over each day in the week
-#         for day in week:
-#             if day == 0:
-#                 # If the day is 0, print a space
-#                 print("  ", end="")
-#             else:
-#                 # If the day is not 0, print the day number
-#                 day_str = str(day).rjust(2)
-#                 # Check if the day has a completion
-#                 if f"{year}-{month:02}-{day_str}" in completion_dates:
-#                     # If it does, print an X
-#                     print(f"\033[1;32;40m{day_str}\033[0m", end="")
-#                 else:
-#                     # If it doesn't, print the day number
-#                     print(day_str, end="")
-#                 print(" ", end="")
-#         print("")
-
-
-
-
-
-    # completions = db.get_habit_completions(habit_id)
-    # habit_completions = []
-    #
-    # for completion in completions:
-    #     completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
-    #     habit_completions.append([completion_date, "Completed"])
-    #
-    # print(tb.tabulate(habit_completions, tablefmt="double_grid"))
-
-
-
-
-
-
-
-
-
-    #
-    #
-    # period = questionary.select("Which period would you like to analyze?", choices=["last_week", "last_month", "last_year"]).ask()
-    # start_date = None
-    # end_date = None
-    # # Calculate start and end dates based on period
-    # if period == 'last_week':
-    #     start_date = date.today() - timedelta(days=7)
-    #     end_date = date.today()
-    # elif period == 'last_month':
-    #     start_date = date.today() - timedelta(days=30)
-    #     end_date = date.today()
-    # elif period == 'last_year':
-    #     start_date = date.today() - timedelta(days=365)
-    #     end_date = date.today()
-    #
-    # start_date = datetime.strftime(start_date, '%Y-%m-%d')
-    # end_date = datetime.strftime(end_date, '%Y-%m-%d')
-    # # Retrieve completion dates from database
-    # completions = db.get_completions_in_range(habit_id, start_date, end_date)
-    #
-    # start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-    # end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
-    # # Create a calendar for the selected time period
-    # cal = calendar.Calendar()
-    # weeks = cal.monthdatescalendar(start_date.year, start_date.month)
-    #
-    # # Initialize an empty calendar string
-    # calendar_str = ''
-    #
-    # # Loop over each week in the calendar
-    # for week in weeks:
-    #     # Loop over each day in the week
-    #     for day in week:
-    #         if day.month != start_date.month:
-    #             # Day is not in the current month, print a blank space
-    #             calendar_str += '    '
-    #         elif day in completions:
-    #             # Day is marked as complete, print an X
-    #             calendar_str += '[X] '
-    #         else:
-    #             # Day is not marked as complete, print a dot
-    #             calendar_str += '[.] '
-    #         # Start a new line after each week
-    #     calendar_str += '\n'
-    #
-    #     # Print the calendar
-    # print(calendar_str)

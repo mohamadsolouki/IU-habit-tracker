@@ -118,3 +118,17 @@ class Database:
         rows = self.c.fetchall()
         completions = [row[0] for row in rows]
         return completions
+
+
+
+
+
+
+# completions = db.get_habit_completions(habit_id)
+# habit_completions = []
+#
+# for completion in completions:
+#     completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
+#     habit_completions.append([completion_date, "Completed"])
+#
+# print(tb.tabulate(habit_completions, tablefmt="double_grid"))
