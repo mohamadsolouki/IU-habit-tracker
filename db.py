@@ -1,5 +1,4 @@
 import sqlite3
-from datetime import datetime, date
 
 
 class Database:
@@ -118,9 +117,3 @@ class Database:
         rows = self.c.fetchall()
         completions = [row[0] for row in rows]
         return completions
-
-
-
-
-
-

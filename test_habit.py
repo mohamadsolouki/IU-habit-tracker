@@ -65,4 +65,3 @@ def test_get_habit():
     assert db.get_habit(3) == (3, "Swim", 7, '2023-01-08', None, 0)
     assert db.get_habit(4) == (4, "Programming", 1, '2023-01-04', None, 0)
     assert db.get_habit(5) == (5, "Travel", 30, '2023-01-02', None, 0)
-

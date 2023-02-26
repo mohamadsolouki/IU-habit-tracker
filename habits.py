@@ -1,6 +1,6 @@
 import termcolor
 import db
-from datetime import datetime, date
+from datetime import datetime
 
 db = db.Database()
 
