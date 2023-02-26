@@ -1,5 +1,4 @@
-import calendar
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 import questionary
 import tabulate as tb
 import termcolor
@@ -195,8 +194,3 @@ def show_habit_completions(habit_id):
         if (date.today() - completion_date).days <= 30:
             completions_in_last_30_days += 1
     print(f"Number of completions in the last 30 days: {completions_in_last_30_days}")
-
-
-
-
-
