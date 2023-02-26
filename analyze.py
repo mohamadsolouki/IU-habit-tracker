@@ -134,10 +134,14 @@ def show_habit_streaks():
 
     print(tb.tabulate(show_list, headers, tablefmt="fancy_grid"))
 
-    # Check if the habit has been completed within the period to reset the streak
-
 
 def update_streak(habit_id):
+    """
+    This function updates the streak of a habit. If the habit has not been completed within the period, the current
+    streak will reset.
+    :param habit_id: The ID of the habit.
+    :return: None
+    """
     streaks = db.get_streaks()
     habit = db.get_habit(habit_id)
     for streak in streaks:
@@ -156,13 +160,17 @@ def update_streak(habit_id):
 
 
 def show_habit_completions(habit_id):
+    """
+    This function prints the completions of a habit.
+    :param habit_id: The ID of the habit.
+    :return: None
+    """
     completions = db.get_habit_completions(habit_id)
     habit_completions = []
 
     for completion in completions:
         completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
         habit_completions.append([completion_date, "Completed"])
-
     print(tb.tabulate(habit_completions, tablefmt="double_grid"))
 
     # calculate the number of completions in the last 7 days
@@ -171,7 +179,6 @@ def show_habit_completions(habit_id):
         completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
         if (date.today() - completion_date).days <= 7:
             completions_in_last_7_days += 1
-
     print(f"Number of completions in the last 7 days: {completions_in_last_7_days}")
 
     # calculate the number of completions in the last 30 days
@@ -180,7 +187,6 @@ def show_habit_completions(habit_id):
         completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
         if (date.today() - completion_date).days <= 30:
             completions_in_last_30_days += 1
-
     print(f"Number of completions in the last 30 days: {completions_in_last_30_days}")
 
 
