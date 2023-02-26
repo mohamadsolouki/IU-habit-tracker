@@ -156,19 +156,32 @@ def update_streak(habit_id):
 
 
 def show_habit_completions(habit_id):
-    """
-    This function get the completions of a habit and prints the calendar of this month to show the completion dates
-    on calendar with a colored background.
-    """
-    completion = db.get_habit_completions(habit_id)
+    completions = db.get_habit_completions(habit_id)
+    habit_completions = []
 
-    # Get the current year and month
-    now = datetime.now()
-    year = now.year
-    month = now.month
+    for completion in completions:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
+        habit_completions.append([completion_date, "Completed"])
 
-    # print calendar and change the calendar days background color of the days that the habit has been completed
-    print(calendar.
+    print(tb.tabulate(habit_completions, tablefmt="double_grid"))
+
+    # calculate the number of completions in the last 7 days
+    completions_in_last_7_days = 0
+    for completion in completions:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
+        if (date.today() - completion_date).days <= 7:
+            completions_in_last_7_days += 1
+
+    print(f"Number of completions in the last 7 days: {completions_in_last_7_days}")
+
+    # calculate the number of completions in the last 30 days
+    completions_in_last_30_days = 0
+    for completion in completions:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
+        if (date.today() - completion_date).days <= 30:
+            completions_in_last_30_days += 1
+
+    print(f"Number of completions in the last 30 days: {completions_in_last_30_days}")
 
 
 
