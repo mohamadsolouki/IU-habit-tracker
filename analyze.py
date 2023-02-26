@@ -165,13 +165,20 @@ def show_habit_completions(habit_id):
     :param habit_id: The ID of the habit.
     :return: None
     """
+    # get the habit completions from the database
     completions = db.get_habit_completions(habit_id)
+    habit = db.get_habit(habit_id)
     habit_completions = []
+    habit_name = habit[1]
+    print(f"Completions of habit: {habit_name} in the last 30 days:")
 
+    # print the habit completions in last month in a table format using tabulate library
     for completion in completions:
         completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
-        habit_completions.append([completion_date, "Completed"])
-    print(tb.tabulate(habit_completions, tablefmt="double_grid"))
+        if (date.today() - completion_date).days <= 30:
+            habit_completions.append([completion_date])
+    headers = ["completion_date"]
+    print(tb.tabulate(habit_completions, headers, tablefmt="fancy_grid"))
 
     # calculate the number of completions in the last 7 days
     completions_in_last_7_days = 0
