@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import date, datetime
 
 
 class Database:
@@ -10,20 +11,19 @@ class Database:
     It is used as follows: db = Database() and then db.method() to call a method.
     """
 
-    def __init__(self):
-        self.conn = sqlite3.connect('habits.db')
+    def __init__(self, name='habits.db'):
+        self.name = name
+        self.conn = sqlite3.connect(self.name)
         self.c = self.conn.cursor()
         self.init_db()
 
-    @staticmethod
-    def create_connection():
-        conn = sqlite3.connect('habits.db')
+    def create_connection(self):
+        conn = sqlite3.connect(self.name)
         c = conn.cursor()
         return conn, c
 
-    @staticmethod
-    def close_connection(conn):
-        conn.close()
+    def close_connection(self, conn):
+        conn.close(self.name)
 
     def init_db(self):
         """
@@ -83,6 +83,7 @@ class Database:
         return streaks
 
     def get_streaks_for_habit(self, habit_id):
+        self.update_streak(habit_id)
         self.c.execute("SELECT * FROM streaks WHERE habit_id=?", (habit_id,))
         streaks = self.c.fetchone()
         return streaks
@@ -117,3 +118,26 @@ class Database:
         rows = self.c.fetchall()
         completions = [row[0] for row in rows]
         return completions
+
+    def update_streak(self, habit_id):
+        """
+        This function updates the streak of a habit. If the habit has not been completed within the period, the current
+        streak will reset.
+        :param habit_id: The ID of the habit.
+        :return: None
+        """
+        streaks = self.get_streaks()
+        habit = self.get_habit(habit_id)
+        for streak in streaks:
+            habit_id = streak[1]
+            period = habit[2]
+            last_completion_date = self.get_last_completion_date(habit_id)
+            if last_completion_date:
+                last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
+                days_since_last_completion = (date.today() - last_completion_date).days
+                if period == 1 and days_since_last_completion > 1:
+                    self.reset_streak(habit_id)
+                elif period == 7 and days_since_last_completion > 7:
+                    self.reset_streak(habit_id)
+                elif period == 30 and days_since_last_completion > 30:
+                    self.reset_streak(habit_id)

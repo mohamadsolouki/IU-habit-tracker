@@ -110,7 +110,7 @@ def show_habit_streaks():
     streaks = db.get_streaks()
     for streak in streaks:
         habit_id = streak[1]
-        update_streak(habit_id)
+        db.update_streak(habit_id)
     streaks = db.get_streaks()
     headers = ["habit_id", "habit_name", "periodicity", "current_streak", "max_streak"]
     show_list = []
@@ -132,30 +132,6 @@ def show_habit_streaks():
                 break
 
     print(tb.tabulate(show_list, headers, tablefmt="fancy_grid"))
-
-
-def update_streak(habit_id):
-    """
-    This function updates the streak of a habit. If the habit has not been completed within the period, the current
-    streak will reset.
-    :param habit_id: The ID of the habit.
-    :return: None
-    """
-    streaks = db.get_streaks()
-    habit = db.get_habit(habit_id)
-    for streak in streaks:
-        habit_id = streak[1]
-        period = habit[2]
-        last_completion_date = db.get_last_completion_date(habit_id)
-        if last_completion_date:
-            last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
-            days_since_last_completion = (date.today() - last_completion_date).days
-            if period == 1 and days_since_last_completion > 1:
-                db.reset_streak(habit_id)
-            elif period == 7 and days_since_last_completion > 7:
-                db.reset_streak(habit_id)
-            elif period == 30 and days_since_last_completion > 30:
-                db.reset_streak(habit_id)
 
 
 def show_habit_completions(habit_id):
