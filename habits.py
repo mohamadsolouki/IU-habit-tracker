@@ -2,7 +2,9 @@ import termcolor
 import db
 from datetime import datetime
 
-db = db.Database()
+
+def get_db(name="habits.db"):
+    return db.Database(name)
 
 
 class Habit:
@@ -13,8 +15,8 @@ class Habit:
         self.creation_date = creation_date
         self.completion_date = completion_date
 
-    def add_habit(self, name, periodicity, creation_date):
-        db.__init__()
+    def add_habit(self, name, periodicity, creation_date, dbname="habits.db"):
+        db = get_db(dbname)
         # Check if habit already exists
         db.c.execute("SELECT * FROM habits WHERE habit_name=?", (name,))
         row = db.c.fetchone()
@@ -32,8 +34,8 @@ class Habit:
         db.conn.close()
         print(termcolor.colored("Habit added successfully!", "green"))
 
-    def mark_habit_as_complete(self, habit_id, completion_date):
-        db.__init__()
+    def mark_habit_as_complete(self, habit_id, completion_date, dbname="habits.db"):
+        db = get_db(dbname)
         self.habit_id = habit_id
         self.completion_date = datetime.strptime(completion_date, '%Y-%m-%d').date()
         last_completion_date = db.get_habit(self.habit_id)[4]
@@ -99,11 +101,11 @@ class Habit:
         db.conn.close()
         print(termcolor.colored("Habit has been marked as complete!", "green"))
 
-    def delete_habit(self, habit_id):
+    def delete_habit(self, habit_id, dbname="habits.db"):
         """
         This method deletes a habit from the database.
         """
-        db.__init__()
+        db = get_db(dbname)
         self.habit_id = habit_id
         # Delete habit from habits table
         db.c.execute("""DELETE FROM habits WHERE id = ?""", (self.habit_id,))
