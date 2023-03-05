@@ -76,22 +76,23 @@ def habit_status():
         days_since_last_completion = (datetime.now() - last_completion_date).days
 
         if period == 1 and days_since_last_completion > 0:
-            print("You have broken the habit '{}' since it has been {} days since the last completion.\n".format(
-                habit_name, days_since_last_completion))
+            print(termcolor.colored("You have broken the habit '{}' since it has been {} days since the last "
+                                    "completion.\n".format(habit_name, days_since_last_completion), "red"))
             pass
         elif period == 7 and days_since_last_completion > 7:
-            print("You have broken the habit '{}' since it has been {} days since the last completion.\n".format(
-                habit_name, days_since_last_completion))
+            print(termcolor.colored("You have broken the habit '{}' since it has been {} days since the last "
+                                    "completion.\n".format(habit_name, days_since_last_completion), "red"))
             pass
         elif period == 30 and days_since_last_completion > 30:
-            print("You have broken the habit '{}' since it has been {} days since the last completion.\n".format(
-                habit_name, days_since_last_completion))
+            print(termcolor.colored("You have broken the habit '{}' since it has been {} days since the last "
+                                    "completion.\n".format(habit_name, days_since_last_completion), "red"))
             pass
         else:
-            print("You have completed your habit within it's period. It's great, keep going!")
+            print(termcolor.colored("You have completed your habit within it's period. It's great, keep going!",
+                  "green"))
     # If the habit has not been completed yet, print a message
     else:
-        print(f"Habit: {habit_name} has not been completed yet.")
+        print(termcolor.colored(f"Habit *{habit_name}* has not been completed yet.", "red"))
     # Print the habit status
     print("=" * 35)
     print("Habit: {}".format(habit_name))
