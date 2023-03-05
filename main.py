@@ -1,5 +1,5 @@
 import sys
-from datetime import date
+from datetime import datetime
 
 import questionary
 import termcolor
@@ -43,7 +43,7 @@ def main():
             {"name": "Weekly", "value": 7},
             {"name": "Monthly", "value": 30}
         ]).ask()
-        creation_date = date.today()
+        creation_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         hb.add_habit(name, periodicity, creation_date)
         ask_to_continue()
 
@@ -57,7 +57,7 @@ def main():
             habit_list.append(f"{habit[0]}: {habit[1]}")
         habit_to_mark = questionary.select("Which habit would you like to mark?", choices=habit_list).ask()
         habit_id = habit_to_mark.split(":")[0].strip()
-        completion_date = date.today().strftime('%Y-%m-%d')
+        completion_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         hb.mark_habit_as_complete(habit_id, completion_date)
         ask_to_continue()
 

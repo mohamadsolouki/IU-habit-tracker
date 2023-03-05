@@ -1,4 +1,3 @@
-import analyze
 import habits as hb
 import db
 
@@ -10,7 +9,7 @@ def get_db(name="test.db"):
     return db.Database(name)
 
 
-# test adding 5 predefined habits
+# test adding 6 predefined habits
 def test_add_habit():
     hb.add_habit("Study", 1, '2023-01-01', "test.db")
     hb.add_habit("Workout", 1, '2023-01-05', "test.db")
@@ -57,11 +56,12 @@ def test_mark_habit_as_complete():
     hb.mark_habit_as_complete(4, "2023-01-11", "test.db")
     hb.mark_habit_as_complete(4, "2023-01-13", "test.db")
     hb.mark_habit_as_complete(4, "2023-01-14", "test.db")
-    assert db.get_streaks_for_habit(1) == (1, 1, 0, 4)
+    assert db.get_updated_streaks(4) == (4, 4, 0, 4)
 
 
+# test deleting a habit
 def test_delete_habit():
-    hb.delete_habit(1)
+    hb.delete_habit(1, "test.db")
     assert db.get_habit(1) is None
 
 

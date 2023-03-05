@@ -68,12 +68,12 @@ def habit_status():
     period = habit[2]
     last_completion_date = habit[4]
     if last_completion_date:
-        last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
+        last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d %H:%M:%S')
     number_of_completions = habit[5]
     days_since_last_completion = 0
     # Check if the habit has been completed within the period
     if last_completion_date is not None:
-        days_since_last_completion = (date.today() - last_completion_date).days
+        days_since_last_completion = (datetime.now() - last_completion_date).days
 
         if period == 1 and days_since_last_completion > 0:
             print("You have broken the habit '{}' since it has been {} days since the last completion.\n".format(
@@ -149,24 +149,24 @@ def show_habit_completions(habit_id):
 
     # print the habit completions in last month in a table format using tabulate library
     for completion in completions:
-        completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
-        if (date.today() - completion_date).days <= 30:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S')
+        if (datetime.now() - completion_date).days <= 30:
             habit_completions.append([completion_date])
-    headers = ["date of habit completion"]
+    headers = ["date and time of habit completion(s)"]
     print(tb.tabulate(habit_completions, headers, tablefmt="fancy_grid"))
 
     # calculate the number of completions in the last 7 days
     completions_in_last_7_days = 0
     for completion in completions:
-        completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
-        if (date.today() - completion_date).days <= 7:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S')
+        if (datetime.now() - completion_date).days <= 7:
             completions_in_last_7_days += 1
     print(f"Number of completions in the last 7 days: {completions_in_last_7_days}")
 
     # calculate the number of completions in the last 30 days
     completions_in_last_30_days = 0
     for completion in completions:
-        completion_date = datetime.strptime(completion[0], '%Y-%m-%d').date()
-        if (date.today() - completion_date).days <= 30:
+        completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S')
+        if (datetime.now() - completion_date).days <= 30:
             completions_in_last_30_days += 1
     print(f"Number of completions in the last 30 days: {completions_in_last_30_days}")

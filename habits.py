@@ -37,12 +37,12 @@ class Habit:
     def mark_habit_as_complete(self, habit_id, completion_date, dbname="habits.db"):
         db = get_db(dbname)
         self.habit_id = habit_id
-        self.completion_date = datetime.strptime(completion_date, '%Y-%m-%d').date()
+        self.completion_date = datetime.strptime(completion_date, '%Y-%m-%d %H:%M:%S')
         last_completion_date = db.get_habit(self.habit_id)[4]
         periodicity = db.get_habit_periodicity(self.habit_id)
         # Check if habit has been completed within the period and ask user if they want to mark it as complete anyway
         if last_completion_date:
-            last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
+            last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d %H:%M:%S')
             if (self.completion_date - last_completion_date).days < periodicity:
                 print(termcolor.colored("Habit has already been completed within the period. Mark it as complete "
                                         "anyway?",
@@ -73,7 +73,7 @@ class Habit:
         completion_list = []
         # Convert completion dates to datetime objects
         for row in rows:
-            completion_list.append(datetime.strptime(row[0], '%Y-%m-%d').date())
+            completion_list.append(datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S').date())
         current_streak = db.get_streaks_for_habit(self.habit_id)[2]
         longest_streak = db.get_streaks_for_habit(self.habit_id)[3]
         # Check if habit has been completed for the first time

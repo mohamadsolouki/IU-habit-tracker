@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import date, datetime
+from datetime import datetime
 
 
 class Database:
@@ -156,8 +156,8 @@ class Database:
             period = habit[2]
             last_completion_date = self.get_last_completion_date(habit_id)
             if last_completion_date:
-                last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d').date()
-                days_since_last_completion = (date.today() - last_completion_date).days
+                last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d %H:%M:%S')
+                days_since_last_completion = (datetime.now() - last_completion_date).days
                 if period == 1 and days_since_last_completion > 1:
                     self.reset_streak(habit_id)
                 elif period == 7 and days_since_last_completion > 7:
