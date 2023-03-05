@@ -2,6 +2,44 @@ import sqlite3
 from datetime import datetime
 
 
+def insert_test_data():
+    """
+        This function is used to insert test data into the database.
+        It is used for testing purposes.
+        """
+    # connect to the database
+    conn = sqlite3.connect("test.db")
+    c = conn.cursor()
+
+    # get all the records from the test database
+    c.execute("SELECT * FROM habits")
+    habits = c.fetchall()
+    c.execute("SELECT * FROM completions")
+    completions = c.fetchall()
+    c.execute("SELECT * FROM streaks")
+    streaks = c.fetchall()
+
+    # connect to the habits database
+    conn = sqlite3.connect("habits.db")
+    c = conn.cursor()
+
+    # insert all the records from the test database into the habits database except for the id
+    for habit in habits:
+        c.execute("INSERT INTO habits (habit_name, periodicity, creation_date, last_completion_date, "
+                  "number_of_completions)"
+                  "VALUES (?, ?, ?, ?, ?)", (habit[1], habit[2], habit[3], habit[4], habit[5]))
+    for completion in completions:
+        c.execute("INSERT INTO completions (habit_id, completion_date) VALUES (?, ?)", (completion[1], completion[2]))
+    for streak in streaks:
+        c.execute("INSERT INTO streaks (habit_id, current_streak, longest_streak) VALUES (?, ?, ?)",
+                  (streak[1], streak[2], streak[3]))
+
+    # commit the changes and close the connection
+    conn.commit()
+    conn.close()
+    print("Test data has been inserted into the habits database.")
+
+
 class Database:
     """
     This class is responsible for creating the database and the tables.
@@ -167,7 +205,7 @@ class Database:
 
     def reset_streak(self, habit_id):
         """
-        This function resets the current streak of a habit.
+            This function resets the current streak of a habit.
         """
         self.c.execute("UPDATE streaks SET current_streak=0 WHERE habit_id=?", (habit_id,))
         self.conn.commit()
