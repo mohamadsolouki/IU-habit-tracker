@@ -108,12 +108,12 @@ def main():
             habits = db.get_habits()
             habit_list = []
             if len(habits) == 0:
-                print(termcolor.colored("There are no habits to delete!", "red"))
+                print(termcolor.colored("There are no habits to show!", "red"))
                 return
             for habit in habits:
                 habit_list.append(f"{habit[0]}: {habit[1]}")
             habit_list.append({"name": "Go back to main menu", "value": "back"})
-            selected_habit = questionary.select("Which habit would you like to delete?", choices=habit_list).ask()
+            selected_habit = questionary.select("Which habit would you like to select?", choices=habit_list).ask()
             if selected_habit == "back":
                 return
             habit_id = selected_habit.split(":")[0].strip()

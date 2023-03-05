@@ -42,9 +42,9 @@ def test_mark_daily_as_complete_five_consecutive_days():
 
 # test marking a weekly habit as complete for 3 consecutive weeks
 def test_mark_weekly_as_complete_three_consecutive_weeks():
-    hb.mark_habit_as_complete(3, '2023-01-11 01:00:00')
-    hb.mark_habit_as_complete(3, '2023-01-18 01:00:00')
-    hb.mark_habit_as_complete(3, '2023-01-24 01:00:00')
+    hb.mark_habit_as_complete(3, '2023-01-11 01:00:00', "test.db")
+    hb.mark_habit_as_complete(3, '2023-01-18 01:00:00', "test.db")
+    hb.mark_habit_as_complete(3, '2023-01-24 01:00:00', "test.db")
     assert db.get_habit_completions(3) == [('2023-01-11 01:00:00',), ('2023-01-18 01:00:00',), ('2023-01-24 01:00:00',)]
 
 

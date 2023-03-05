@@ -7,12 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5d730b2-063b-42f2-91bf-4a10abdcce59" name="Changes" comment="update streaks table">
+    <list default="true" id="a5d730b2-063b-42f2-91bf-4a10abdcce59" name="Changes" comment="habits overview based on periodicity">
+      <change afterPath="$PROJECT_DIR$/test.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/habits.db" beforeDir="false" afterPath="$PROJECT_DIR$/habits.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/habits.py" beforeDir="false" afterPath="$PROJECT_DIR$/habits.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/test.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_habit.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_habit.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,44 +60,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/moham/OneDrive/Desktop/University/IU/4th semester/DLBDSBDT01 - Big Data Technologies/project&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/moham/OneDrive/Desktop/University/IU/4th semester/DLBDSBDT01 - Big Data Technologies/project",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "preferences.editor"
   }
-}</component>
-  <component name="RunManager" selected="Python tests.Python tests for test_habit.test_mark_habit_as_complete">
-    <configuration name="Python tests for test_habit.test_add_daily_habit" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+}]]></component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="habit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_habit.test_add_daily_habit&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for test_habit.test_add_habit" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="habit" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_habit.test_add_habit&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests for test_habit.test_mark_daily_as_complete_five_consecutive_days" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -143,13 +135,27 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for test_habit.test_mark_weekly_as_complete_three_consecutive_weeks" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="habit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;-s&quot;" />
+      <option name="_new_target" value="&quot;test_habit.test_mark_weekly_as_complete_three_consecutive_weeks&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_habit_as_complete" />
-        <item itemvalue="Python tests.Python tests for test_habit.test_add_habit" />
+        <item itemvalue="Python tests.Python tests for test_habit.test_mark_weekly_as_complete_three_consecutive_weeks" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_daily_as_complete_five_consecutive_days" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_daily_as_complete_two_consecutive_days" />
-        <item itemvalue="Python tests.Python tests for test_habit.test_add_daily_habit" />
       </list>
     </recent_temporary>
   </component>
@@ -400,7 +406,42 @@
       <option name="project" value="LOCAL" />
       <updated>1678014004933</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="use datetime instead of time">
+      <created>1678017064662</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1678017064662</updated>
+    </task>
+    <task id="LOCAL-00036" summary="use datetime instead of time">
+      <created>1678017312364</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1678017312364</updated>
+    </task>
+    <task id="LOCAL-00037" summary="colorize habit prompts">
+      <created>1678017780073</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1678017780073</updated>
+    </task>
+    <task id="LOCAL-00038" summary="insert predefined test data into habits db">
+      <created>1678041253588</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1678041253588</updated>
+    </task>
+    <task id="LOCAL-00039" summary="habits overview based on periodicity">
+      <created>1678041290577</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1678041290577</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -422,10 +463,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="starting over" />
-    <MESSAGE value="changing calculate streaks method" />
-    <MESSAGE value="error handling for 0 habits state" />
-    <MESSAGE value="updating project, moving toward OOP" />
     <MESSAGE value="check marking within habit period" />
     <MESSAGE value="show all habit completions function" />
     <MESSAGE value="update cli" />
@@ -447,6 +484,10 @@
     <MESSAGE value="update streaks" />
     <MESSAGE value="docstrings" />
     <MESSAGE value="update streaks table" />
-    <option name="LAST_COMMIT_MESSAGE" value="update streaks table" />
+    <MESSAGE value="use datetime instead of time" />
+    <MESSAGE value="colorize habit prompts" />
+    <MESSAGE value="insert predefined test data into habits db" />
+    <MESSAGE value="habits overview based on periodicity" />
+    <option name="LAST_COMMIT_MESSAGE" value="habits overview based on periodicity" />
   </component>
 </project>
