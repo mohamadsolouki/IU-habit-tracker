@@ -40,11 +40,42 @@ def habits_todo():
 
 def habits_overview():
     """
-    This function prints the habits overview.
+    This function prints the habits overview of all habits od based on their periodicity.
     """
-    habits = db.get_habits()
-    headers = ["ID", "Habit Name", "Periodicity", "Creation Date", "Last Completion Date", "Number of Completions"]
-    print(tb.tabulate(habits, headers, tablefmt="fancy_grid"))
+    choice = questionary.select("What would you like to see?", choices=[
+        {"name": "All habits", "value": "all"},
+        {"name": "Daily habits", "value": "daily"},
+        {"name": "Weekly habits", "value": "weekly"},
+        {"name": "Monthly habits", "value": "monthly"}
+    ]).ask()
+    if choice == "all":
+        habits = db.get_habits()
+        headers = ["ID", "Habit Name", "Periodicity", "Creation Date", "Last Completion Date", "Number of Completions"]
+        print(tb.tabulate(habits, headers, tablefmt="fancy_grid"))
+    elif choice == "daily":
+        habits = db.get_habits()
+        headers = ["ID", "Habit Name", "Periodicity", "Creation Date", "Last Completion Date", "Number of Completions"]
+        habit_list = []
+        for habit in habits:
+            if habit[2] == 1:
+                habit_list.append(habit)
+        print(tb.tabulate(habit_list, headers, tablefmt="fancy_grid"))
+    elif choice == "weekly":
+        habits = db.get_habits()
+        headers = ["ID", "Habit Name", "Periodicity", "Creation Date", "Last Completion Date", "Number of Completions"]
+        habit_list = []
+        for habit in habits:
+            if habit[2] == 7:
+                habit_list.append(habit)
+        print(tb.tabulate(habit_list, headers, tablefmt="fancy_grid"))
+    elif choice == "monthly":
+        habits = db.get_habits()
+        headers = ["ID", "Habit Name", "Periodicity", "Creation Date", "Last Completion Date", "Number of Completions"]
+        habit_list = []
+        for habit in habits:
+            if habit[2] == 30:
+                habit_list.append(habit)
+        print(tb.tabulate(habit_list, headers, tablefmt="fancy_grid"))
 
 
 def habit_status():
