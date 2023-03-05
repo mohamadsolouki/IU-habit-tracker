@@ -12,17 +12,27 @@ class Database:
     """
 
     def __init__(self, name='habits.db'):
+        """
+        This method initializes the database and the tables.
+        :param name: The name of the database.
+        """
         self.name = name
         self.conn = sqlite3.connect(self.name)
         self.c = self.conn.cursor()
         self.init_db()
 
     def create_connection(self):
+        """
+        Create a connection to the database
+        """
         conn = sqlite3.connect(self.name)
         c = conn.cursor()
         return conn, c
 
     def close_connection(self, conn):
+        """
+        Close the connection to the database
+        """
         conn.close(self.name)
 
     def init_db(self):
@@ -55,44 +65,79 @@ class Database:
     def get_habits(self):
         """
         This method returns all the habits in the database as a list of tuples.
-        :return: list of tuples containing all the habits in the database
+        :return: A list of tuples containing all the habits.
         """
         self.c.execute("SELECT * FROM habits")
         habits = self.c.fetchall()
         return habits
 
     def get_habit(self, habit_id):
+        """
+        This method returns a habit from the database.
+        :param habit_id: The ID of the habit.
+        :return: A tuple containing only one habit information.
+        """
         self.c.execute("SELECT * FROM habits WHERE id=?", (habit_id,))
         habit = self.c.fetchone()
         return habit
 
     def get_habit_completions(self, habit_id):
+        """
+        This method returns all the completions of a habit.
+        :param habit_id: The ID of the habit.
+        :return: A list of tuples containing all the completions of a habit.
+        """
         self.c.execute("SELECT completion_date FROM completions WHERE habit_id=? ORDER BY completion_date ASC",
                        (habit_id,))
         completions = self.c.fetchall()
         return completions
 
     def get_habit_periodicity(self, habit_id):
+        """
+        This method returns the periodicity of a habit.
+        :param habit_id: The ID of the habit.
+        :return: The periodicity of the habit.
+        """
         self.c.execute("SELECT periodicity FROM habits WHERE id=?", (habit_id,))
         periodicity = self.c.fetchone()[0]
         return periodicity
 
     def get_streaks(self):
-        streaks = self.get_streaks()
-        for streak in streaks:
-            habit_id = streak[1]
-            self.update_streak(habit_id)
+        """
+        This method returns all the streaks in the database as a list of tuples.
+        :return: A list of tuples containing all the streaks.
+        """
         self.c.execute("SELECT * FROM streaks")
         streaks = self.c.fetchall()
         return streaks
 
     def get_streaks_for_habit(self, habit_id):
+        """
+        This method returns the streaks of a habit.
+        :param habit_id: The ID of the habit.
+        :return: A tuple containing the streaks of a habit.
+        """
+        self.c.execute("SELECT * FROM streaks WHERE habit_id=?", (habit_id,))
+        streaks = self.c.fetchone()
+        return streaks
+
+    def get_updated_streaks(self, habit_id):
+        """
+        This method returns the streaks of a habit after updating them.
+        :param habit_id: The ID of the habit.
+        :return: A tuple containing the streaks of a habit.
+        """
         self.update_streak(habit_id)
         self.c.execute("SELECT * FROM streaks WHERE habit_id=?", (habit_id,))
         streaks = self.c.fetchone()
         return streaks
 
     def get_last_completion_date(self, habit_id):
+        """
+        This method returns the last completion date of a habit.
+        :param habit_id: The ID of the habit.
+        :return: The last completion date of the habit.
+        """
         self.c.execute("SELECT last_completion_date FROM habits WHERE id=?", (habit_id,))
         last_completion_date = self.c.fetchone()[0]
         return last_completion_date
