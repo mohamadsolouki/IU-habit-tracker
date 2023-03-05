@@ -78,6 +78,10 @@ class Database:
         return periodicity
 
     def get_streaks(self):
+        streaks = self.get_streaks()
+        for streak in streaks:
+            habit_id = streak[1]
+            self.update_streak(habit_id)
         self.c.execute("SELECT * FROM streaks")
         streaks = self.c.fetchall()
         return streaks
@@ -92,32 +96,6 @@ class Database:
         self.c.execute("SELECT last_completion_date FROM habits WHERE id=?", (habit_id,))
         last_completion_date = self.c.fetchone()[0]
         return last_completion_date
-
-    def reset_streak(self, habit_id):
-        self.c.execute("UPDATE streaks SET current_streak=0 WHERE habit_id=?", (habit_id,))
-        self.conn.commit()
-
-    def get_completions_in_range(self, habit_id, start_date, end_date):
-        """
-            Returns a list of completion dates for this habit within the specified range.
-
-            Args:
-                habit_id
-                start_date (str): Start date in the format YYYY-MM-DD.
-                end_date (str): End date in the format YYYY-MM-DD.
-
-            Returns:
-                list: A list of completion dates as strings in the format YYYY-MM-DD.
-            """
-        self.c.execute("""
-                    SELECT completion_date
-                    FROM completions
-                    WHERE habit_id=? AND completion_date BETWEEN ? AND ?
-                    ORDER BY completion_date ASC
-                """, (habit_id, start_date, end_date))
-        rows = self.c.fetchall()
-        completions = [row[0] for row in rows]
-        return completions
 
     def update_streak(self, habit_id):
         """
@@ -141,3 +119,10 @@ class Database:
                     self.reset_streak(habit_id)
                 elif period == 30 and days_since_last_completion > 30:
                     self.reset_streak(habit_id)
+
+    def reset_streak(self, habit_id):
+        """
+        This function resets the current streak of a habit.
+        """
+        self.c.execute("UPDATE streaks SET current_streak=0 WHERE habit_id=?", (habit_id,))
+        self.conn.commit()
