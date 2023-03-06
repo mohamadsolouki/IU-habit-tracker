@@ -16,6 +16,7 @@ print(termcolor.colored("***********************************", "cyan"))
 
 ask = questionary.confirm("Do you want to use test database with predefined habits?").ask()
 if ask is True:
+    db.clear_databases()
     db.insert_test_data()
 else:
     db = db.Database()

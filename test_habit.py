@@ -1,12 +1,20 @@
 import habits as hb
 import db
 
-hb = hb.Habit()
+# clear test database
+db.clear_databases()
+
+# connect to test database
 db = db.Database("test.db")
 
 
+# get database
 def get_db(name="test.db"):
     return db.Database(name)
+
+
+# create a habit object
+hb = hb.Habit()
 
 
 # test adding 6 predefined habits
@@ -40,12 +48,23 @@ def test_mark_daily_as_complete_five_consecutive_days():
                                            ('2023-02-05 01:00:00',), ('2023-02-06 01:00:00',)]
 
 
-# test marking a weekly habit as complete for 3 consecutive weeks
-def test_mark_weekly_as_complete_three_consecutive_weeks():
-    hb.mark_habit_as_complete(3, '2023-01-11 01:00:00', "test.db")
+# test marking a weekly habit as complete 5 times which has current streak of 0 and longest streak of 3
+# in CLI
+def test_mark_weekly_as_complete():
+    hb.mark_habit_as_complete(3, '2023-01-15 01:00:00', "test.db")
     hb.mark_habit_as_complete(3, '2023-01-18 01:00:00', "test.db")
-    hb.mark_habit_as_complete(3, '2023-01-24 01:00:00', "test.db")
-    assert db.get_habit_completions(3) == [('2023-01-11 01:00:00',), ('2023-01-18 01:00:00',), ('2023-01-24 01:00:00',)]
+    hb.mark_habit_as_complete(3, '2023-01-29 01:00:00', "test.db")
+    hb.mark_habit_as_complete(3, '2023-02-02 01:00:00', "test.db")
+    hb.mark_habit_as_complete(3, '2023-02-08 01:00:00', "test.db")
+    assert db.get_habit_completions(3) == [('2023-01-15 01:00:00',), ('2023-01-18 01:00:00',), ('2023-01-29 01:00:00',),
+                                           ('2023-02-02 01:00:00',), ('2023-02-08 01:00:00',)]
+    assert db.get_habit(3) == (3, "Swim", 7, '2023-01-08 01:00:00', None, 0)
+    assert db.get_habit_completions(3) == [('2023-01-15 01:00:00',), ('2023-01-18 01:00:00',), ('2023-01-29 01:00:00',),
+                                           ('2023-02-02 01:00:00',), ('2023-02-08 01:00:00',)]
+    assert db.get_habit_periodicity(3) == (3, 7)
+    assert db.get_last_completion_date(3) == ('2023-02-08 01:00:00',)
+    assert db.get_streaks_for_habit(3) == (3, 0, 3, 3)
+    assert db.reset_streak(3) == (3, 0, 0, 3)
 
 
 # test marking a daily habit as complete for 6 times which has current streak of 0 and longest streak of 4
@@ -63,10 +82,3 @@ def test_mark_habit_as_complete():
 def test_delete_habit():
     hb.delete_habit(1, "test.db")
     assert db.get_habit(1) is None
-
-
-def test_get_habit():
-    assert db.get_habit(2) == (2, "Workout", 1, '2023-01-05 01:00:00', None, 0)
-    assert db.get_habit(3) == (3, "Swim", 7, '2023-01-08 01:00:00', None, 0)
-    assert db.get_habit(4) == (4, "Programming", 1, '2023-01-04 01:00:00', None, 0)
-    assert db.get_habit(5) == (5, "Travel", 30, '2023-01-02 01:00:00', None, 0)

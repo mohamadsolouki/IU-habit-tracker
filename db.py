@@ -37,7 +37,41 @@ def insert_test_data():
     # commit the changes and close the connection
     conn.commit()
     conn.close()
-    print("Test data has been inserted into the habits database.")
+    print("Test data has been inserted into database.")
+
+
+def clear_databases():
+    """
+    This function is used to drop both databases.
+    It is used for testing purposes.
+    """
+    # connect to the habits database
+    conn = sqlite3.connect("habits.db")
+    c = conn.cursor()
+
+    # drop the habits database
+    c.execute("DROP TABLE habits")
+    c.execute("DROP TABLE completions")
+    c.execute("DROP TABLE streaks")
+
+    # commit the changes and close the connection
+    conn.commit()
+    conn.close()
+    print("Habit database have been dropped.")
+
+    # connect to the test database
+    conn = sqlite3.connect("test.db")
+    c = conn.cursor()
+
+    # drop the test database
+    c.execute("DROP TABLE habits")
+    c.execute("DROP TABLE completions")
+    c.execute("DROP TABLE streaks")
+
+    # commit the changes and close the connection
+    conn.commit()
+    conn.close()
+    print("Test database have been dropped.")
 
 
 class Database:
