@@ -1,4 +1,4 @@
-from modules import db, analyze, habits as hb
+from modules import dbbase as db, analyze, habits as hb
 import sys
 from datetime import datetime
 import questionary

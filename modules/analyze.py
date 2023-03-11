@@ -2,7 +2,7 @@ from datetime import date, datetime
 import questionary
 import tabulate as tb
 import termcolor
-from modules import db, habits as hb
+from modules import dbbase as db, habits as hb
 
 
 db = db.Database(test=False)

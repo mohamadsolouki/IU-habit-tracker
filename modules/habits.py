@@ -1,14 +1,28 @@
 import termcolor
-from modules import db
+from modules import dbbase
 from datetime import datetime
 
 
 def get_db(test):
-    return db.Database(test=test)
+    """
+    This function returns a database object.
+    :param test: Whether the database is a test database.
+    :return: A database object.
+    """
+    return dbbase.Database(test=test)
 
 
 class Habit:
     def __init__(self, habit_id=None, name=None, periodicity=None, creation_date=None, completion_date=None):
+        """
+        This class represents a habit. It contains methods to add a habit to the database, mark a habit as complete, and
+        delete a habit from the database.
+        :param habit_id: The ID of the habit.
+        :param name: The name of the habit.
+        :param periodicity: The periodicity of the habit.
+        :param creation_date: The date and time the habit was created.
+        :param completion_date: The date and time the habit was completed.
+        """
         self.habit_id = habit_id
         self.name = name
         self.periodicity = periodicity
@@ -16,6 +30,16 @@ class Habit:
         self.completion_date = completion_date
 
     def add_habit(self, name, periodicity, creation_date, test=False):
+        """
+        This method adds a habit to the database. If the habit already exists, the user will be notified. If the habit
+        does not exist, it will be added to the database. The habit will also be added to the streaks table. The user
+        will be notified if the habit was added successfully.
+        :param name: The name of the habit.
+        :param periodicity: The periodicity of the habit.
+        :param creation_date: The date and time the habit was created.
+        :param test: Whether the database is a test database.
+        :return: None
+        """
         if test:
             db = get_db(test=True)
         else:
@@ -38,6 +62,15 @@ class Habit:
         print(termcolor.colored("Habit added successfully!", "green"))
 
     def mark_habit_as_complete(self, habit_id, completion_date, test=False):
+        """
+        This method marks a habit as complete. If the habit has been completed within the period, the user will be asked
+        if they want to mark it as complete anyway. If the habit has not been completed within the period, the current
+        streak will reset. The habit's last completion date and number of completions will be updated.
+        :param habit_id: The ID of the habit.
+        :param completion_date: The date and time the habit was completed.
+        :param test: Whether the database is a test database.
+        :return: None
+        """
         if test:
             db = get_db(test=True)
         else:
@@ -109,13 +142,18 @@ class Habit:
 
     def delete_habit(self, habit_id, test=False):
         """
-        This method deletes a habit from the database.
+        This method deletes a habit from the database. The habit will be deleted from the habits, streaks and
+        completions tables.
+        :param habit_id: The ID of the habit.
+        :param test: Whether the database is a test
+        database. :return: None
         """
         if test:
             db = get_db(test=True)
         else:
             db = get_db(test=False)
         self.habit_id = habit_id
+
         # Delete habit from habits table
         db.c.execute("""DELETE FROM habits WHERE id = ?""", (self.habit_id,))
         # Delete habit from streaks table

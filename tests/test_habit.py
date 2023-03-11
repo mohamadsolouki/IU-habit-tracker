@@ -1,4 +1,4 @@
-from modules import db, habits as hb
+from modules import dbbase as db, habits as hb
 from unittest.mock import patch
 
 # create a database object
