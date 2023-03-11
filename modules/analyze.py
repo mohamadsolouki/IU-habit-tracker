@@ -5,7 +5,7 @@ import termcolor
 from modules import db, habits as hb
 
 
-db = db.Database()
+db = db.Database(test=False)
 hb = hb.Habit()
 
 

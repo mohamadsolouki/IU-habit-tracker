@@ -73,30 +73,29 @@ class Database:
     It is also used to get data from the database.
     It is used as follows: db = Database() and then db.method() to call a method.
     """
-
-    def __init__(self, name):
+    def __init__(self, test):
         """
-        This method initializes the database and the tables.
-        :param name: The name of the database.
+        This method creates the database connection and the cursor.
+        :param test: A boolean value indicating if the test database should be used.
         """
-        self.name = name
-        self.conn = sqlite3.connect(self.name)
+        if test:
+            self.conn = sqlite3.connect("db_files/test.db")
+        else:
+            self.conn = sqlite3.connect("db_files/habits.db")
         self.c = self.conn.cursor()
         self.init_db()
 
-    def create_connection(self):
+    def close(self):
         """
-        Create a connection to the database
+        This method closes the database connection.
         """
-        conn = sqlite3.connect(self.name)
-        c = conn.cursor()
-        return conn, c
+        self.conn.close()
 
-    def close_connection(self, conn):
+    def commit(self):
         """
-        Close the connection to the database
+        This method commits the changes to the database.
         """
-        conn.close(self.name)
+        self.conn.commit()
 
     def init_db(self):
         """
@@ -123,7 +122,7 @@ class Database:
             longest_streak INTEGER NOT NULL,
             FOREIGN KEY (habit_id) REFERENCES habits(id)
             )""")
-        self.conn.commit()
+        self.commit()
 
     def get_habits(self):
         """
@@ -132,6 +131,7 @@ class Database:
         """
         self.c.execute("SELECT * FROM habits")
         habits = self.c.fetchall()
+        self.commit()
         return habits
 
     def get_habit(self, habit_id):
@@ -142,6 +142,7 @@ class Database:
         """
         self.c.execute("SELECT * FROM habits WHERE id=?", (habit_id,))
         habit = self.c.fetchone()
+        self.commit()
         return habit
 
     def get_habit_completions(self, habit_id):
@@ -153,6 +154,7 @@ class Database:
         self.c.execute("SELECT completion_date FROM completions WHERE habit_id=? ORDER BY completion_date ASC",
                        (habit_id,))
         completions = self.c.fetchall()
+        self.commit()
         return completions
 
     def get_habit_periodicity(self, habit_id):
@@ -163,6 +165,7 @@ class Database:
         """
         self.c.execute("SELECT periodicity FROM habits WHERE id=?", (habit_id,))
         periodicity = self.c.fetchone()[0]
+        self.commit()
         return periodicity
 
     def get_streaks(self):
@@ -172,6 +175,7 @@ class Database:
         """
         self.c.execute("SELECT * FROM streaks")
         streaks = self.c.fetchall()
+        self.commit()
         return streaks
 
     def get_streaks_for_habit(self, habit_id):
@@ -233,4 +237,4 @@ class Database:
             This function resets the current streak of a habit.
         """
         self.c.execute("UPDATE streaks SET current_streak=0 WHERE habit_id=?", (habit_id,))
-        self.conn.commit()
+        self.commit()

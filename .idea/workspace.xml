@@ -8,10 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5d730b2-063b-42f2-91bf-4a10abdcce59" name="Changes" comment="reformat directories">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_files/test.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_files/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/db_files/test.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/analyze.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/analyze.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/habits.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/habits.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_habit.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_habit.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +31,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -86,6 +90,20 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for test_habit.test_mark_daily_as_complete_five_consecutive_days" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="habit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_habit.test_mark_daily_as_complete_five_consecutive_days&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for test_habit.test_mark_daily_as_complete_two_consecutive_days" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="habit" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -100,26 +118,12 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_habit.test_mark_habit_as_complete" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="habit" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_habit.test_mark_habit_as_complete&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests for test_habit.test_mark_weekly_habit_as_complete" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="habit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -146,9 +150,9 @@
       <list>
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_daily_as_complete_two_consecutive_days" />
         <item itemvalue="Python tests.Python tests for test_habit.test_add_habit" />
-        <item itemvalue="Python tests.Python tests in test_habit.py" />
-        <item itemvalue="Python tests.Python tests for test_habit.test_mark_habit_as_complete" />
+        <item itemvalue="Python tests.Python tests for test_habit.test_mark_daily_as_complete_five_consecutive_days" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_weekly_habit_as_complete" />
+        <item itemvalue="Python tests.Python tests in test_habit.py" />
       </list>
     </recent_temporary>
   </component>
@@ -160,13 +164,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1676536839322</updated>
-    </task>
-    <task id="LOCAL-00002" summary="remove some functions and move them to habits.py">
-      <created>1676715840139</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1676715840139</updated>
     </task>
     <task id="LOCAL-00003" summary="starting over">
       <created>1676715857399</created>
@@ -504,7 +501,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678544907404</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="reformat directories">
+      <created>1678546493149</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1678546493149</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -3,8 +3,8 @@ from modules import db
 from datetime import datetime
 
 
-def get_db(name="db_files/habits.db"):
-    return db.Database(name)
+def get_db(test):
+    return db.Database(test=test)
 
 
 class Habit:
@@ -15,8 +15,11 @@ class Habit:
         self.creation_date = creation_date
         self.completion_date = completion_date
 
-    def add_habit(self, name, periodicity, creation_date, dbname="db_files/habits.db"):
-        db = get_db(dbname)
+    def add_habit(self, name, periodicity, creation_date, test=False):
+        if test:
+            db = get_db(test=True)
+        else:
+            db = get_db(test=False)
         # Check if habit already exists
         db.c.execute("SELECT * FROM habits WHERE habit_name=?", (name,))
         row = db.c.fetchone()
@@ -30,12 +33,15 @@ class Habit:
         # Add habit to streaks table
         db.c.execute("INSERT INTO streaks (habit_id, current_streak, longest_streak) VALUES (?, ?, ?)",
                      (self.habit_id, 0, 0))
-        db.conn.commit()
-        db.conn.close()
+        db.commit()
+        db.close()
         print(termcolor.colored("Habit added successfully!", "green"))
 
-    def mark_habit_as_complete(self, habit_id, completion_date, dbname="db_files/habits.db"):
-        db = get_db(dbname)
+    def mark_habit_as_complete(self, habit_id, completion_date, test=False):
+        if test:
+            db = get_db(test=True)
+        else:
+            db = get_db(test=False)
         self.habit_id = habit_id
         self.completion_date = datetime.strptime(completion_date, '%Y-%m-%d %H:%M:%S')
         last_completion_date = db.get_habit(self.habit_id)[4]
@@ -58,7 +64,7 @@ class Habit:
         db.c.execute(
             "UPDATE habits SET last_completion_date=?, number_of_completions=number_of_completions+1 WHERE id=?",
             (self.completion_date, self.habit_id))
-        db.conn.commit()
+        db.commit()
 
         # Check if habit has previous completions
         db.c.execute("SELECT last_completion_date FROM habits WHERE id=?", (self.habit_id,))
@@ -97,15 +103,18 @@ class Habit:
         # Update streaks table
         db.c.execute("UPDATE streaks SET current_streak=?, longest_streak=? WHERE habit_id=?",
                      (current_streak, longest_streak, self.habit_id))
-        db.conn.commit()
-        db.conn.close()
+        db.commit()
+        db.close()
         print(termcolor.colored("Habit has been marked as complete!", "green"))
 
-    def delete_habit(self, habit_id, dbname="db_files/habits.db"):
+    def delete_habit(self, habit_id, test=False):
         """
         This method deletes a habit from the database.
         """
-        db = get_db(dbname)
+        if test:
+            db = get_db(test=True)
+        else:
+            db = get_db(test=False)
         self.habit_id = habit_id
         # Delete habit from habits table
         db.c.execute("""DELETE FROM habits WHERE id = ?""", (self.habit_id,))
@@ -113,6 +122,6 @@ class Habit:
         db.c.execute("""DELETE FROM streaks WHERE habit_id = ?""", (self.habit_id,))
         # Delete habit from completions table
         db.c.execute("""DELETE FROM completions WHERE habit_id = ?""", (self.habit_id,))
-        db.conn.commit()
-        db.conn.close()
+        db.commit()
+        db.close()
         print(termcolor.colored("Habit deleted!", "red"))

@@ -13,9 +13,9 @@ ask = questionary.confirm("Do you want to use test database with predefined habi
 if ask is True:
     db.clear_databases()
     db.insert_test_data()
-    db = db.Database("db_files/habits.db")
+    db = db.Database(test=False)
 else:
-    db = db.Database("db_files/habits.db")
+    db = db.Database(test=False)
     db.init_db()
 
 hb = hb.Habit()
