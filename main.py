@@ -1,13 +1,11 @@
 import sys
 from datetime import datetime
-
 import questionary
 import termcolor
 import analyze
 import db
 import habits as hb
 
-hb = hb.Habit()
 
 print(termcolor.colored("\n**********************************", "cyan"))
 print(termcolor.colored("Welcome to Habit Tracker APP!", "white"))
@@ -18,9 +16,12 @@ ask = questionary.confirm("Do you want to use test database with predefined habi
 if ask is True:
     db.clear_databases()
     db.insert_test_data()
+    db = db.Database("habits.db")
 else:
-    db = db.Database()
+    db = db.Database("habits.db")
     db.init_db()
+
+hb = hb.Habit()
 
 
 def main():
