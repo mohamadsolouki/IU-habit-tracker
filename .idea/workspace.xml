@@ -7,8 +7,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5d730b2-063b-42f2-91bf-4a10abdcce59" name="Changes" comment="update">
+    <list default="true" id="a5d730b2-063b-42f2-91bf-4a10abdcce59" name="Changes" comment="clear databases before insert predefined habits">
+      <change afterPath="$PROJECT_DIR$/data/completions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/habits.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/streaks.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/habits.db" beforeDir="false" afterPath="$PROJECT_DIR$/habits.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/test.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_habit.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_habit.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,26 +76,19 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for test_habit.test_mark_habit_as_complete">
+    <configuration name="Python tests for test_habit.test_add_habit" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="habit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_habit.test_add_habit&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests for test_habit.test_mark_daily_as_complete_five_consecutive_days" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -132,7 +133,7 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_habit.test_mark_weekly_as_complete_three_consecutive_weeks" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for test_habit.test_mark_weekly_habit_as_complete" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="habit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -141,18 +142,18 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;-s&quot;" />
-      <option name="_new_target" value="&quot;test_habit.test_mark_weekly_as_complete_three_consecutive_weeks&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_habit.test_mark_weekly_habit_as_complete&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_habit_as_complete" />
-        <item itemvalue="Python tests.Python tests for test_habit.test_mark_weekly_as_complete_three_consecutive_weeks" />
+        <item itemvalue="Python tests.Python tests for test_habit.test_mark_weekly_habit_as_complete" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_daily_as_complete_five_consecutive_days" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_daily_as_complete_two_consecutive_days" />
+        <item itemvalue="Python tests.Python tests for test_habit.test_add_habit" />
       </list>
     </recent_temporary>
   </component>
@@ -445,7 +446,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678052671423</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="clear databases before insert predefined habits">
+      <created>1678105312225</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1678105312225</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -467,7 +475,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="show all habit completions function" />
     <MESSAGE value="update cli" />
     <MESSAGE value="marking error for first time" />
     <MESSAGE value="updating project" />
@@ -492,6 +499,7 @@
     <MESSAGE value="insert predefined test data into habits db" />
     <MESSAGE value="habits overview based on periodicity" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="clear databases before insert predefined habits" />
+    <option name="LAST_COMMIT_MESSAGE" value="clear databases before insert predefined habits" />
   </component>
 </project>
