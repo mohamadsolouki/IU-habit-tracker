@@ -1,0 +1,42 @@
+[
+    {
+        "creation_date": "2023-01-01 01:00:00",
+        "habit_name": "Study",
+        "id": 1,
+        "last_completion_date": "2023-01-03 01:00:00",
+        "number_of_completions": 2,
+        "periodicity": 1
+    },
+    {
+        "creation_date": "2023-01-05 01:00:00",
+        "habit_name": "Workout",
+        "id": 2,
+        "last_completion_date": "2023-02-06 01:00:00",
+        "number_of_completions": 5,
+        "periodicity": 1
+    },
+    {
+        "creation_date": "2023-01-08 01:00:00",
+        "habit_name": "Swim",
+        "id": 3,
+        "last_completion_date": "2023-02-08 01:00:00",
+        "number_of_completions": 5,
+        "periodicity": 7
+    },
+    {
+        "creation_date": "2023-01-04 01:00:00",
+        "habit_name": "Programming",
+        "id": 4,
+        "last_completion_date": "2023-01-14 01:00:00",
+        "number_of_completions": 6,
+        "periodicity": 1
+    },
+    {
+        "creation_date": "2023-01-02 01:00:00",
+        "habit_name": "Travel",
+        "id": 5,
+        "last_completion_date": null,
+        "number_of_completions": 0,
+        "periodicity": 30
+    }
+]
