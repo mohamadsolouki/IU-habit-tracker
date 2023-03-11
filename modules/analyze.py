@@ -194,6 +194,16 @@ def show_habit_streaks():
 
     print(tb.tabulate(show_list, headers, tablefmt="fancy_grid"))
 
+    # get the name of habit with the longest streak
+    max_habit = ""
+    max_streak = 0
+    for habit in show_list:
+        if habit[4] > max_streak:
+            max_habit = habit[1]
+            max_streak = habit[4]
+
+    print(termcolor.colored(f"your longest habit streaks is: {max_habit}\n", "green"))
+
 
 def show_habit_completions(habit_id):
     """
@@ -206,13 +216,12 @@ def show_habit_completions(habit_id):
     habit = db.get_habit(habit_id)
     habit_completions = []
     habit_name = habit[1]
-    print(f"Completions of habit *{habit_name}* in the last 30 days:")
+    print(termcolor.colored(f"\nAll Completions of habit *{habit_name}*", "green"))
 
     # print the habit completions in last month in a table format using tabulate library
     for completion in completions:
         completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S')
-        if (datetime.now() - completion_date).days <= 30:
-            habit_completions.append([completion_date])
+        habit_completions.append([completion_date])
     headers = ["date and time of habit completion(s)"]
     print(tb.tabulate(habit_completions, headers, tablefmt="fancy_grid"))
 
@@ -222,7 +231,7 @@ def show_habit_completions(habit_id):
         completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S')
         if (datetime.now() - completion_date).days <= 7:
             completions_in_last_7_days += 1
-    print(f"Number of completions in the last 7 days: {completions_in_last_7_days}")
+    print(termcolor.colored(f"Number of completions in the last 7 days: {completions_in_last_7_days}", "blue"))
 
     # calculate the number of completions in the last 30 days
     completions_in_last_30_days = 0
@@ -230,4 +239,4 @@ def show_habit_completions(habit_id):
         completion_date = datetime.strptime(completion[0], '%Y-%m-%d %H:%M:%S')
         if (datetime.now() - completion_date).days <= 30:
             completions_in_last_30_days += 1
-    print(f"Number of completions in the last 30 days: {completions_in_last_30_days}")
+    print(termcolor.colored(f"Number of completions in the last 30 days: {completions_in_last_30_days}\n", "blue"))
