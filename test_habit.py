@@ -50,7 +50,7 @@ def test_mark_weekly_habit_as_complete():
     with patch('builtins.input', return_value='y'):
         # Mark habit as complete for each date
         for date in completion_dates:
-            hb.mark_habit_as_complete(habit_id, date)
+            hb.mark_habit_as_complete(habit_id, date, test=True)
 
     assert db.get_habit_completions(habit_id) == [('2023-01-15 01:00:00',), ('2023-01-18 01:00:00',),
                                                   ('2023-01-29 01:00:00',), ('2023-02-02 01:00:00',),
@@ -65,16 +65,16 @@ def test_mark_weekly_habit_as_complete():
 
 # test marking a daily habit as complete for 6 times which has current streak of 0 and longest streak of 4
 def test_mark_habit_as_complete():
-    hb.mark_habit_as_complete(4, "2023-01-08 01:00:00")
-    hb.mark_habit_as_complete(4, "2023-01-09 01:00:00")
-    hb.mark_habit_as_complete(4, "2023-01-10 01:00:00")
-    hb.mark_habit_as_complete(4, "2023-01-11 01:00:00")
-    hb.mark_habit_as_complete(4, "2023-01-13 01:00:00")
-    hb.mark_habit_as_complete(4, "2023-01-14 01:00:00")
+    hb.mark_habit_as_complete(4, "2023-01-08 01:00:00", test=True)
+    hb.mark_habit_as_complete(4, "2023-01-09 02:00:00", test=True)
+    hb.mark_habit_as_complete(4, "2023-01-10 03:00:00", test=True)
+    hb.mark_habit_as_complete(4, "2023-01-11 04:00:00", test=True)
+    hb.mark_habit_as_complete(4, "2023-01-13 05:00:00", test=True)
+    hb.mark_habit_as_complete(4, "2023-01-14 06:00:00", test=True)
     assert db.get_updated_streaks(4) == (4, 4, 0, 4)
 
 
 # test deleting a habit
 def test_delete_habit():
-    hb.delete_habit(1)
+    hb.delete_habit(1, test=True)
     assert db.get_habit(1) is None
