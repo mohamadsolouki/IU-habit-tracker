@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 # create a database object
 db = db.Database(test=True)
+db.init_db()
 
 # create a habit object
 hb = hb.Habit()

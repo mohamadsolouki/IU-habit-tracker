@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from datetime import datetime
 import pandas as pd
@@ -78,12 +79,16 @@ class Database:
         This method creates the database connection and the cursor.
         :param test: A boolean value indicating if the test database should be used.
         """
+        # make databases
+        if not os.path.exists("db_files"):
+            os.mkdir("db_files")
+
+        # connect to the database
         if test:
             self.conn = sqlite3.connect("db_files/test.db")
         else:
             self.conn = sqlite3.connect("db_files/habits.db")
         self.c = self.conn.cursor()
-        self.init_db()
 
     def close(self):
         """
@@ -168,6 +173,16 @@ class Database:
         self.commit()
         return periodicity
 
+    def get_last_completion_date(self, habit_id):
+        """
+        This method returns the last completion date of a habit.
+        :param habit_id: The ID of the habit.
+        :return: The last completion date of the habit.
+        """
+        self.c.execute("SELECT last_completion_date FROM habits WHERE id=?", (habit_id,))
+        last_completion_date = self.c.fetchone()[0]
+        return last_completion_date
+
     def get_streaks(self):
         """
         This method returns all the streaks in the database as a list of tuples.
@@ -198,16 +213,6 @@ class Database:
         self.c.execute("SELECT * FROM streaks WHERE habit_id=?", (habit_id,))
         streaks = self.c.fetchone()
         return streaks
-
-    def get_last_completion_date(self, habit_id):
-        """
-        This method returns the last completion date of a habit.
-        :param habit_id: The ID of the habit.
-        :return: The last completion date of the habit.
-        """
-        self.c.execute("SELECT last_completion_date FROM habits WHERE id=?", (habit_id,))
-        last_completion_date = self.c.fetchone()[0]
-        return last_completion_date
 
     def update_streak(self, habit_id):
         """

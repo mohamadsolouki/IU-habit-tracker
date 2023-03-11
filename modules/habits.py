@@ -44,7 +44,7 @@ class Habit:
             db = get_db(test=False)
         self.habit_id = habit_id
         self.completion_date = datetime.strptime(completion_date, '%Y-%m-%d %H:%M:%S')
-        last_completion_date = db.get_habit(self.habit_id)[4]
+        last_completion_date = db.get_last_completion_date(self.habit_id)
         periodicity = db.get_habit_periodicity(self.habit_id)
         # Check if habit has been completed within the period and ask user if they want to mark it as complete anyway
         if last_completion_date:
