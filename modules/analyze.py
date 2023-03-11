@@ -84,54 +84,83 @@ def habit_status():
     """
     habits = db.get_habits()
     habit_list = []
+
     # If there are no habits, print a message and return
     if len(habits) == 0:
         print(termcolor.colored("You don't have any habits yet!", "red"))
         return
+
     # If there are habits, add them to the habit list
     for habit in habits:
         habit_list.append(f"{habit[0]}: {habit[1]}")
     habit_to_mark = questionary.select("Which habit would you like to analyze?", choices=habit_list).ask()
     habit_id = habit_to_mark.split(":")[0].strip()
+
     # Get the habit from the database
     habit = db.get_habit(habit_id)
     habit_name = habit[1]
     period = habit[2]
     last_completion_date = habit[4]
-    if last_completion_date:
-        last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d %H:%M:%S')
     number_of_completions = habit[5]
-    days_since_last_completion = 0
+    streaks = db.get_updated_streaks(habit_id)
+    current_streak = streaks[2]
+    max_streak = streaks[3]
+
     # Check if the habit has been completed within the period
+    days_since_last_completion = 0
     if last_completion_date is not None:
+        last_completion_date = datetime.strptime(last_completion_date, '%Y-%m-%d %H:%M:%S')
         days_since_last_completion = (datetime.now() - last_completion_date).days
 
+        # If the habit has been completed within the period, print a message and return
         if period == 1 and days_since_last_completion > 0:
-            print(termcolor.colored("You have broken the habit '{}' since it has been {} days since the last "
-                                    "completion.\n".format(habit_name, days_since_last_completion), "red"))
+            print(termcolor.colored("\nYou have broken the habit '{}' since it has been {} days since the last "
+                                    "completion.".format(habit_name, days_since_last_completion), "red"))
             pass
         elif period == 7 and days_since_last_completion > 7:
-            print(termcolor.colored("You have broken the habit '{}' since it has been {} days since the last "
-                                    "completion.\n".format(habit_name, days_since_last_completion), "red"))
+            print(termcolor.colored("\nYou have broken the habit '{}' since it has been {} days since the last "
+                                    "completion.".format(habit_name, days_since_last_completion), "red"))
             pass
         elif period == 30 and days_since_last_completion > 30:
-            print(termcolor.colored("You have broken the habit '{}' since it has been {} days since the last "
-                                    "completion.\n".format(habit_name, days_since_last_completion), "red"))
+            print(termcolor.colored("\nYou have broken the habit '{}' since it has been {} days since the last "
+                                    "completion.".format(habit_name, days_since_last_completion), "red"))
             pass
         else:
-            print(termcolor.colored("You have completed your habit within it's period. It's great, keep going!",
+            print(termcolor.colored("\nYou have completed your habit within it's period. It's great, keep going!",
                   "green"))
+
     # If the habit has not been completed yet, print a message
     else:
-        print(termcolor.colored(f"Habit *{habit_name}* has not been completed yet.", "red"))
-    # Print the habit status
-    print("=" * 35)
-    print("Habit: {}".format(habit_name))
-    print("Period: {}".format(period))
-    print("Last completion: {}".format(last_completion_date))
-    print("Number of completion(s): {}".format(number_of_completions))
-    print("Days since last completion: {}".format(days_since_last_completion))
-    print("=" * 35)
+        print(termcolor.colored(f"\nHabit *{habit_name}* has not been completed yet.", "red"))
+
+    # Convert the periodicity to a string
+    periodicity = ""
+    if period == 1:
+        period = "Day"
+        periodicity = "daily"
+    elif period == 7:
+        period = "Week"
+        periodicity = "weekly"
+    elif period == 30:
+        period = "Month"
+        periodicity = "monthly"
+
+    # Convert the last completion date to a string if it is None
+    if last_completion_date is None:
+        last_completion_date = "Not completed yet"
+
+    current_streak = f"{current_streak} {period.lower()}(s) of streaks"
+    max_streak = f"{max_streak} {period.lower()}(s) in a row"
+
+    # print habit data in tabulate format
+    headers = ["Habit Name", "Periodicity", "Last completion", "Number of Completions", ]
+    data = [habit_name, periodicity, last_completion_date, f"{number_of_completions} time(s)"]
+    print(tb.tabulate([data], headers=headers, tablefmt="fancy_grid"))
+
+    # print habit data in tabulate format
+    headers = ["Days Since Last Completion", "Current Streak", "Max Streak"]
+    data = [f"{days_since_last_completion} day(s)", current_streak, max_streak]
+    print(tb.tabulate([data], headers=headers, tablefmt="fancy_grid"))
 
 
 def show_habit_streaks():
