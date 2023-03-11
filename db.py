@@ -1,43 +1,30 @@
 import sqlite3
 from datetime import datetime
+import pandas as pd
 
 
 def insert_test_data():
     """
         This function is used to insert test data into the database.
-        It is used for testing purposes.
-        """
+        it uses test data from JSON files in "Test data" directory.
+    """
     # connect to the database
-    conn = sqlite3.connect("test.db")
-    c = conn.cursor()
-
-    # get all the records from the test database
-    c.execute("SELECT * FROM habits")
-    habits = c.fetchall()
-    c.execute("SELECT * FROM completions")
-    completions = c.fetchall()
-    c.execute("SELECT * FROM streaks")
-    streaks = c.fetchall()
-
-    # connect to the habits database
     conn = sqlite3.connect("habits.db")
-    c = conn.cursor()
 
-    # insert all the records from the test database into the habits database except for the id
-    for habit in habits:
-        c.execute("INSERT INTO habits (habit_name, periodicity, creation_date, last_completion_date, "
-                  "number_of_completions)"
-                  "VALUES (?, ?, ?, ?, ?)", (habit[1], habit[2], habit[3], habit[4], habit[5]))
-    for completion in completions:
-        c.execute("INSERT INTO completions (habit_id, completion_date) VALUES (?, ?)", (completion[1], completion[2]))
-    for streak in streaks:
-        c.execute("INSERT INTO streaks (habit_id, current_streak, longest_streak) VALUES (?, ?, ?)",
-                  (streak[1], streak[2], streak[3]))
+    # read the test data from JSON files
+    habits = pd.read_json("data/habits.json")
+    completions = pd.read_json("data/completions.json")
+    streaks = pd.read_json("data/streaks.json")
+
+    # insert the test data into the database
+    habits.to_sql("habits", conn, if_exists="append", index=False)
+    completions.to_sql("completions", conn, if_exists="append", index=False)
+    streaks.to_sql("streaks", conn, if_exists="append", index=False)
 
     # commit the changes and close the connection
     conn.commit()
     conn.close()
-    print("Test data has been inserted into database.")
+    print("Test data have been inserted.")
 
 
 def clear_databases():
@@ -49,29 +36,33 @@ def clear_databases():
     conn = sqlite3.connect("habits.db")
     c = conn.cursor()
 
-    # drop the habits database
-    c.execute("DROP TABLE habits")
-    c.execute("DROP TABLE completions")
-    c.execute("DROP TABLE streaks")
+    # check if the habits database exists
+    c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='habits'")
+    if not c.fetchone():
+        return
 
-    # commit the changes and close the connection
+    # delete all the data from the habits database then commit the changes and close the connection.
+    c.execute("DELETE FROM habits")
+    c.execute("DELETE FROM completions")
+    c.execute("DELETE FROM streaks")
     conn.commit()
     conn.close()
-    print("Habit database have been dropped.")
 
     # connect to the test database
     conn = sqlite3.connect("test.db")
     c = conn.cursor()
 
-    # drop the test database
-    c.execute("DROP TABLE habits")
-    c.execute("DROP TABLE completions")
-    c.execute("DROP TABLE streaks")
+    # check if the test database exists
+    c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='habits'")
+    if not c.fetchone():
+        return
 
-    # commit the changes and close the connection
+    # delete all the data from the test database then commit the changes and close the connection.
+    c.execute("DELETE FROM habits")
+    c.execute("DELETE FROM completions")
+    c.execute("DELETE FROM streaks")
     conn.commit()
     conn.close()
-    print("Test database have been dropped.")
 
 
 class Database:
