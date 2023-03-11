@@ -53,7 +53,7 @@ def main():
         habit_list = []
         if len(habits) == 0:
             print(termcolor.colored("There are no habits to mark as complete!", "red"))
-            return
+            ask_to_continue()
         for habit in habits:
             habit_list.append(f"{habit[0]}: {habit[1]}")
         habit_to_mark = questionary.select("Which habit would you like to mark?", choices=habit_list).ask()
@@ -67,7 +67,7 @@ def main():
         habit_list = []
         if len(habits) == 0:
             print(termcolor.colored("There are no habits to delete!", "red"))
-            return
+            ask_to_continue()
         for habit in habits:
             habit_list.append(f"{habit[0]}: {habit[1]}")
         habit_list.append({"name": "Go back to main menu", "value": "back"})
