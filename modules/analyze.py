@@ -2,8 +2,8 @@ from datetime import date, datetime
 import questionary
 import tabulate as tb
 import termcolor
-import db
-import habits as hb
+from modules import db, habits as hb
+
 
 db = db.Database()
 hb = hb.Habit()

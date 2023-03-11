@@ -7,17 +7,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5d730b2-063b-42f2-91bf-4a10abdcce59" name="Changes" comment="clear databases before insert predefined habits">
-      <change afterPath="$PROJECT_DIR$/data/completions.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/habits.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/streaks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/db.py" afterDir="false" />
+    <list default="true" id="a5d730b2-063b-42f2-91bf-4a10abdcce59" name="Changes" comment="update">
+      <change afterPath="$PROJECT_DIR$/db_files/habits.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db_files/test.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/analyze.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/db.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/habits.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_habit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/habit.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/analyze.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/habits.db" beforeDir="false" afterPath="$PROJECT_DIR$/habits.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/habits.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/test.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_habit.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_habit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_habit.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +85,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python tests.Python tests for test_habit.test_mark_habit_as_complete">
+  <component name="RunManager" selected="Python tests.Python tests for test_habit.test_add_habit">
     <configuration name="Python tests for test_habit.test_add_habit" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="habit" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -149,11 +158,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for test_habit.test_add_habit" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_habit_as_complete" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_weekly_habit_as_complete" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_daily_as_complete_five_consecutive_days" />
         <item itemvalue="Python tests.Python tests for test_habit.test_mark_daily_as_complete_two_consecutive_days" />
-        <item itemvalue="Python tests.Python tests for test_habit.test_add_habit" />
       </list>
     </recent_temporary>
   </component>
@@ -453,7 +462,56 @@
       <option name="project" value="LOCAL" />
       <updated>1678105312225</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="update requirements.txt">
+      <created>1678539583565</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1678539583565</updated>
+    </task>
+    <task id="LOCAL-00043" summary="create test JSON data">
+      <created>1678539607595</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1678539607595</updated>
+    </task>
+    <task id="LOCAL-00044" summary="insert new tests">
+      <created>1678539624228</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1678539624228</updated>
+    </task>
+    <task id="LOCAL-00045" summary="insert new tests">
+      <created>1678539632102</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1678539632102</updated>
+    </task>
+    <task id="LOCAL-00046" summary="using predefined habits">
+      <created>1678539654006</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1678539654006</updated>
+    </task>
+    <task id="LOCAL-00047" summary="insert test data and clear database functions">
+      <created>1678539681034</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1678539681034</updated>
+    </task>
+    <task id="LOCAL-00048" summary="update">
+      <created>1678539691214</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1678539691214</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -475,11 +533,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="update cli" />
-    <MESSAGE value="marking error for first time" />
-    <MESSAGE value="updating project" />
-    <MESSAGE value="finally streaks are working properly" />
-    <MESSAGE value="writing tests for adding, marking, and streaks calculation" />
     <MESSAGE value="changed based on tests" />
     <MESSAGE value="commenting" />
     <MESSAGE value="adding more tests" />
@@ -498,8 +551,13 @@
     <MESSAGE value="colorize habit prompts" />
     <MESSAGE value="insert predefined test data into habits db" />
     <MESSAGE value="habits overview based on periodicity" />
-    <MESSAGE value="update" />
     <MESSAGE value="clear databases before insert predefined habits" />
-    <option name="LAST_COMMIT_MESSAGE" value="clear databases before insert predefined habits" />
+    <MESSAGE value="update requirements.txt" />
+    <MESSAGE value="create test JSON data" />
+    <MESSAGE value="insert new tests" />
+    <MESSAGE value="using predefined habits" />
+    <MESSAGE value="insert test data and clear database functions" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>

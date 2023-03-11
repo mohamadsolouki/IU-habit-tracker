@@ -9,7 +9,7 @@ def insert_test_data():
         it uses test data from JSON files in "Test data" directory.
     """
     # connect to the database
-    conn = sqlite3.connect("habits.db")
+    conn = sqlite3.connect("db_files/habits.db")
 
     # read the test data from JSON files
     habits = pd.read_json("data/habits.json")
@@ -33,7 +33,7 @@ def clear_databases():
     It is used for testing purposes.
     """
     # connect to the habits database
-    conn = sqlite3.connect("habits.db")
+    conn = sqlite3.connect("db_files/habits.db")
     c = conn.cursor()
 
     # check if the habits database exists
@@ -49,7 +49,7 @@ def clear_databases():
     conn.close()
 
     # connect to the test database
-    conn = sqlite3.connect("test.db")
+    conn = sqlite3.connect("db_files/test.db")
     c = conn.cursor()
 
     # check if the test database exists
@@ -74,7 +74,7 @@ class Database:
     It is used as follows: db = Database() and then db.method() to call a method.
     """
 
-    def __init__(self, name='habits.db'):
+    def __init__(self, name='db_files/habits.db'):
         """
         This method initializes the database and the tables.
         :param name: The name of the database.
@@ -100,7 +100,7 @@ class Database:
 
     def init_db(self):
         """
-        This method creates the database and the tables if they don't exist.
+        This method creates the database and the tables if they don't exist in database directory.
         """
         self.c.execute("""CREATE TABLE IF NOT EXISTS habits (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

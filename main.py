@@ -1,11 +1,8 @@
+from modules import db, analyze, habits as hb
 import sys
 from datetime import datetime
 import questionary
 import termcolor
-import analyze
-import db
-import habits as hb
-
 
 print(termcolor.colored("\n**********************************", "cyan"))
 print(termcolor.colored("Welcome to Habit Tracker APP!", "white"))
@@ -16,9 +13,9 @@ ask = questionary.confirm("Do you want to use test database with predefined habi
 if ask is True:
     db.clear_databases()
     db.insert_test_data()
-    db = db.Database("habits.db")
+    db = db.Database("db_files/habits.db")
 else:
-    db = db.Database("habits.db")
+    db = db.Database("db_files/habits.db")
     db.init_db()
 
 hb = hb.Habit()
