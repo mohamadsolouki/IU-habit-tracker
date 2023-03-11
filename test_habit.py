@@ -1,8 +1,6 @@
 import habits as hb
 import db
-
-# clear test database
-db.clear_databases()
+from unittest.mock import patch
 
 # connect to test database
 db = db.Database("test.db")
@@ -48,23 +46,28 @@ def test_mark_daily_as_complete_five_consecutive_days():
                                            ('2023-02-05 01:00:00',), ('2023-02-06 01:00:00',)]
 
 
-# test marking a weekly habit as complete 5 times which has current streak of 0 and longest streak of 3
-# in CLI
-def test_mark_weekly_as_complete():
-    hb.mark_habit_as_complete(3, '2023-01-15 01:00:00', "test.db")
-    hb.mark_habit_as_complete(3, '2023-01-18 01:00:00', "test.db")
-    hb.mark_habit_as_complete(3, '2023-01-29 01:00:00', "test.db")
-    hb.mark_habit_as_complete(3, '2023-02-02 01:00:00', "test.db")
-    hb.mark_habit_as_complete(3, '2023-02-08 01:00:00', "test.db")
-    assert db.get_habit_completions(3) == [('2023-01-15 01:00:00',), ('2023-01-18 01:00:00',), ('2023-01-29 01:00:00',),
-                                           ('2023-02-02 01:00:00',), ('2023-02-08 01:00:00',)]
-    assert db.get_habit(3) == (3, "Swim", 7, '2023-01-08 01:00:00', None, 0)
-    assert db.get_habit_completions(3) == [('2023-01-15 01:00:00',), ('2023-01-18 01:00:00',), ('2023-01-29 01:00:00',),
-                                           ('2023-02-02 01:00:00',), ('2023-02-08 01:00:00',)]
-    assert db.get_habit_periodicity(3) == (3, 7)
-    assert db.get_last_completion_date(3) == ('2023-02-08 01:00:00',)
-    assert db.get_streaks_for_habit(3) == (3, 0, 3, 3)
-    assert db.reset_streak(3) == (3, 0, 0, 3)
+def test_mark_weekly_habit_as_complete():
+    # Set up test data
+    habit_id = 3
+    completion_dates = ['2023-01-15 01:00:00', '2023-01-18 01:00:00', '2023-01-29 01:00:00', '2023-02-02 01:00:00',
+                        '2023-02-08 01:00:00']
+    dbname = "test.db"
+
+    # Use mock to simulate user input
+    with patch('builtins.input', return_value='y'):
+        # Mark habit as complete for each date
+        for date in completion_dates:
+            hb.mark_habit_as_complete(habit_id, date, dbname)
+
+    assert db.get_habit_completions(habit_id) == [('2023-01-15 01:00:00',), ('2023-01-18 01:00:00',),
+                                                  ('2023-01-29 01:00:00',), ('2023-02-02 01:00:00',),
+                                                  ('2023-02-08 01:00:00',)]
+    assert db.get_habit(3) == (3, "Swim", 7, '2023-01-08 01:00:00', '2023-02-08 01:00:00', 5)
+    assert db.get_habit_periodicity(3) == 7
+    assert db.get_last_completion_date(3) == '2023-02-08 01:00:00'
+    assert db.get_streaks_for_habit(3) == (3, 3, 3, 3)
+    db.reset_streak(3)
+    assert db.get_streaks_for_habit(3) == (3, 3, 0, 3)
 
 
 # test marking a daily habit as complete for 6 times which has current streak of 0 and longest streak of 4
