@@ -74,7 +74,7 @@ class Database:
     It is used as follows: db = Database() and then db.method() to call a method.
     """
 
-    def __init__(self, name='db_files/habits.db'):
+    def __init__(self, name):
         """
         This method initializes the database and the tables.
         :param name: The name of the database.
