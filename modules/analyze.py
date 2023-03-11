@@ -173,7 +173,7 @@ def show_habit_streaks():
         habit_id = streak[1]
         db.update_streak(habit_id)
     streaks = db.get_streaks()
-    headers = ["habit_id", "habit_name", "periodicity", "current_streak", "max_streak"]
+    headers = ["Habit ID", "Habit Name", "Periodicity", "Current Streak", "Max Streak"]
     show_list = []
     streak_list = []
 
@@ -186,7 +186,16 @@ def show_habit_streaks():
     for habit in habits:
         habit_id = habit[0]
         habit_name = habit[1]
+
+        # Convert the periodicity to a string
         periodicity = habit[2]
+        if periodicity == 1:
+            periodicity = "daily"
+        elif periodicity == 7:
+            periodicity = "weekly"
+        elif periodicity == 30:
+            periodicity = "monthly"
+
         for streak in streak_list:
             if streak[0] == habit_id:
                 show_list.append([habit_id, habit_name, periodicity, streak[1], streak[2]])
