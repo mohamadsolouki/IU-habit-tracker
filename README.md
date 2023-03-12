@@ -15,19 +15,19 @@ Functional Programming at the IU university of applied science.**
 - Create a python virtual environment
 
 ``` sh
-$ python -m venv env
+python -m venv HTenv
 ```
 
 - Activate your environment
 
 ``` sh
-$ .\env\Scripts\activate
+.\HTenv\Scripts\activate
 ```
 
 - Install the requirements
 
 ``` sh
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Run habit tracker
@@ -36,12 +36,12 @@ $ pip install -r requirements.txt
 - Run the main.py
 
 ``` sh
-$ python main.py
+python main.py
 ```
 
 - You should see the main menu like this which asks you to use predefined data or use your own data:
 
-![Main menu](docs/success_start.png)
+![Main menu](docs/main-menu.png)
 
 ### Run tests
 
@@ -49,7 +49,7 @@ $ python main.py
 - Run pytest
 
 ``` sh
-$ pytest .
+pytest .
 ```
 
 You should see something like this if all the tests are successful:
@@ -60,12 +60,9 @@ You should see something like this if all the tests are successful:
 ## Usage
 
 You can navigate through the options using the arrow keys and press enter to select an option.
-
-### Main menu
-
-![Main menu](docs/main_menu.png)
  
 ### Add habit
+ 
 
 ![Add habit](docs/add_habit.png)
 
