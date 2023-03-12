@@ -85,3 +85,14 @@ You can navigate through the options using the arrow keys and press enter to sel
 
 ![Analytics](docs/analytics.png)
 ---
+
+## Author
+
+👤 **Mohammadsadegh Solouki**
+
+* Github: [@mohamadsolouki](https://github.com/mohamadsolouki)
+* LinkedIn: [@Mohamad Solouki](https://linkedin.com/in/mohamadsolouki)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
