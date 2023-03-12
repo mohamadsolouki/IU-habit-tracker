@@ -64,7 +64,7 @@ You can navigate through the options using the arrow keys and press enter to sel
 ### Main menu
 
 ![Main menu](docs/main_menu.png)
-
+ 
 ### Add habit
 
 ![Add habit](docs/add_habit.png)
