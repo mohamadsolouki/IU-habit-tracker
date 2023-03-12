@@ -11,7 +11,7 @@ Functional Programming at the IU university of applied science.**
 
 - Download the latest version of IU habit tracker from 
 [here](https://github.com/mohamadsolouki/IU-habit-tracker/archive/refs/heads/main.zip) or clone the repository 
-- unzip the file and go to the "IU-habit-tracker-main" directory
+- unzip the file and go to the "IU-habit-tracker-master" directory
 - Create a python virtual environment
 
 ``` sh
@@ -32,7 +32,7 @@ $ pip install -r requirements.txt
 
 ### Run habit tracker
 
-- Switch to parent folder "habitTrackerIU-main"
+- Switch to parent folder "IU-habit-tracker-master"
 - Run the main.py
 
 ``` sh
