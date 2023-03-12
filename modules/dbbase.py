@@ -4,68 +4,6 @@ from datetime import datetime
 import pandas as pd
 
 
-def insert_test_data():
-    """
-        This function is used to insert test data into the database.
-        it uses test data from JSON files in "Test data" directory.
-    """
-    # connect to the database
-    conn = sqlite3.connect("db_files/habits.db")
-
-    # read the test data from JSON files
-    habits = pd.read_json("data/habits.json")
-    completions = pd.read_json("data/completions.json")
-    streaks = pd.read_json("data/streaks.json")
-
-    # insert the test data into the database
-    habits.to_sql("habits", conn, if_exists="append", index=False)
-    completions.to_sql("completions", conn, if_exists="append", index=False)
-    streaks.to_sql("streaks", conn, if_exists="append", index=False)
-
-    # commit the changes and close the connection
-    conn.commit()
-    conn.close()
-    print("Test data have been inserted.")
-
-
-def clear_databases():
-    """
-    This function is used to drop both databases.
-    It is used for testing purposes.
-    """
-    # connect to the habits database
-    conn = sqlite3.connect("db_files/habits.db")
-    c = conn.cursor()
-
-    # check if the habits database exists
-    c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='habits'")
-    if not c.fetchone():
-        return
-
-    # delete all the data from the habits database then commit the changes and close the connection.
-    c.execute("DELETE FROM habits")
-    c.execute("DELETE FROM completions")
-    c.execute("DELETE FROM streaks")
-    conn.commit()
-    conn.close()
-
-    # connect to the test database
-    conn = sqlite3.connect("db_files/test.db")
-    c = conn.cursor()
-
-    # check if the test database exists
-    c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='habits'")
-    if not c.fetchone():
-        return
-
-    # delete all the data from the test database then commit the changes and close the connection.
-    c.execute("DELETE FROM habits")
-    c.execute("DELETE FROM completions")
-    c.execute("DELETE FROM streaks")
-    conn.commit()
-    conn.close()
-
-
 class Database:
     """
     This class is responsible for creating the database and the tables.
@@ -243,3 +181,64 @@ class Database:
         """
         self.c.execute("UPDATE streaks SET current_streak=0 WHERE habit_id=?", (habit_id,))
         self.commit()
+
+    @staticmethod
+    def insert_test_data():
+        """
+            This function is used to insert test data into the database.
+            it uses test data from JSON files in "Test data" directory.
+        """
+        # connect to the database
+        conn = sqlite3.connect("db_files/habits.db")
+
+        # read the test data from JSON files
+        habits = pd.read_json("data/habits.json")
+        completions = pd.read_json("data/completions.json")
+        streaks = pd.read_json("data/streaks.json")
+
+        # insert the test data into the database
+        habits.to_sql("habits", conn, if_exists="append", index=False)
+        completions.to_sql("completions", conn, if_exists="append", index=False)
+        streaks.to_sql("streaks", conn, if_exists="append", index=False)
+
+        # commit the changes and close the connection
+        conn.commit()
+        conn.close()
+
+    @staticmethod
+    def clear_databases():
+        """
+        This function is used to drop both databases.
+        It is used for testing purposes.
+        """
+        # connect to the habits database
+        conn = sqlite3.connect("db_files/habits.db")
+        c = conn.cursor()
+
+        # check if the habits database exists
+        c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='habits'")
+        if not c.fetchone():
+            return
+
+        # delete all the data from the habits database then commit the changes and close the connection.
+        c.execute("DELETE FROM habits")
+        c.execute("DELETE FROM completions")
+        c.execute("DELETE FROM streaks")
+        conn.commit()
+        conn.close()
+
+        # connect to the test database
+        conn = sqlite3.connect("db_files/test.db")
+        c = conn.cursor()
+
+        # check if the test database exists
+        c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='habits'")
+        if not c.fetchone():
+            return
+
+        # delete all the data from the test database then commit the changes and close the connection.
+        c.execute("DELETE FROM habits")
+        c.execute("DELETE FROM completions")
+        c.execute("DELETE FROM streaks")
+        conn.commit()
+        conn.close()

@@ -9,16 +9,9 @@ print(termcolor.colored("Welcome to Habit Tracker APP!", "white"))
 print(termcolor.colored("Use this app to track your habits.", "yellow"))
 print(termcolor.colored("***********************************", "cyan"))
 
-ask = questionary.confirm("Do you want to use test database with predefined habits?").ask()
-if ask is True:
-    db.clear_databases()
-    db.insert_test_data()
-    db = db.Database(test=False)
-else:
-    db = db.Database(test=False)
-    db.init_db()
-
 hb = hb.Habit()
+db = db.Database(test=False)
+db.init_db()
 
 
 def main():
@@ -34,6 +27,7 @@ def main():
         {"name": "Delete a habit", "value": "delete"},
         {"name": "Today habits", "value": "todo"},
         {"name": "Analyze habits", "value": "analyze"},
+        {"name": "Insert predefined habits", "value": "predefined"},
         {"name": "Quit application", "value": "quit"}
     ]).ask()
 
@@ -121,6 +115,16 @@ def main():
 
         elif action == 'back':
             main()
+
+    elif action == 'predefined':
+        ask = questionary.confirm("Do you want to insert predefined habits into database?").ask()
+        if ask is True:
+            db.clear_databases()
+            db.insert_test_data()
+            print(termcolor.colored("Predefined habits inserted successfully!", "green"))
+            ask_to_continue()
+        else:
+            return main()
 
     elif action == 'quit':
         print(termcolor.colored("Looking forward to see you again\n\n", "blue"))
