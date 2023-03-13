@@ -11,7 +11,7 @@ hb = hb.Habit()
 
 def habits_todo():
     """
-    This function prints the habits that are due today.
+    This function prints the habits that need to be completed today.
     """
     habits = db.get_habits()
     headers = ["ID", "Habit Name", "Periodicity", "Last Completion"]
