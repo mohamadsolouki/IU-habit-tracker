@@ -4,9 +4,10 @@ IU Habit Tracker - README
 Functional Programming at the IU university of applied science.**
 
 ## Installation
+**This application requires Python version >= 3.7**
 
-#### This application requires Python version >= 3.7
-For the installation of Python, you can follow the instructions in the following [link](https://www.python.org/downloads/)
+*For the installation of Python, you can follow the instructions in the following [link](https://www.python.org/downloads/)*
+
 
 ### Install IU Habit Tracker
 
@@ -42,7 +43,7 @@ pytest .
 
 You should see something like this if all the tests are successful:
 
-![Command Output](docs/test.png)
+![Tests](docs/test.png)
 
 ---
 ## Usage
@@ -92,9 +93,9 @@ You can navigate through the options using the arrow keys and press enter to sel
 ### Analytics
 - This option uses analyze module to show users the details of their habits.
 - "Habits overview" option will show an overview of the habits that user has entered based on their period.
-- "Single habit status" will show you the list of all habits and you can select one of them to see the details of that habit.
+- "Single habit status" will show you the list of all habits, and you can select one of them to see the details of that habit.
 - "Streaks analysis" will show you a table of all habits and their current and longest streaks.
-- "All completions of a habit" will show you a list of all habits and you can select one of them to see all the dates that you have marked that habit as done.
+- "All completions of a habit" will show you a list of all habits, and you can select one of them to see all the dates that you have marked that habit as done.
 
 ![Analytics](docs/analyze.png)
 ---
@@ -106,9 +107,11 @@ You can navigate through the options using the arrow keys and press enter to sel
 * Github: [@mohamadsolouki](https://github.com/mohamadsolouki)
 * LinkedIn: [@Mohamad Solouki](https://linkedin.com/in/mohamadsolouki)
 
+---
 ## Show your support
 
 Give a ⭐️ if this project helped you! 
 
+---
 ## Contributing
 This project is for educational purposes only. Contributions, issues and feature requests are welcome!
