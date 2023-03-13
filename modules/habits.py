@@ -13,10 +13,13 @@ def get_db(test):
 
 
 class Habit:
+    """
+    This class represents a habit. It contains methods to add a habit to the database, mark a habit as complete, and
+    delete a habit from the database.
+    """
     def __init__(self, habit_id=None, name=None, periodicity=None, creation_date=None, completion_date=None):
         """
-        This class represents a habit. It contains methods to add a habit to the database, mark a habit as complete, and
-        delete a habit from the database.
+        This method initializes the habit object.
         :param habit_id: The ID of the habit.
         :param name: The name of the habit.
         :param periodicity: The periodicity of the habit.
