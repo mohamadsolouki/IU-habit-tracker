@@ -27,7 +27,7 @@
         "creation_date": "2023-01-04 01:00:00",
         "habit_name": "Programming",
         "id": 4,
-        "last_completion_date": "2023-01-14 01:00:00",
+        "last_completion_date": "2023-01-14 06:00:00",
         "number_of_completions": 6,
         "periodicity": 1
     },
@@ -35,8 +35,8 @@
         "creation_date": "2023-01-02 01:00:00",
         "habit_name": "Travel",
         "id": 5,
-        "last_completion_date": null,
-        "number_of_completions": 0,
+        "last_completion_date": "2023-02-01 01:00:00",
+        "number_of_completions": 2,
         "periodicity": 30
     }
 ]
