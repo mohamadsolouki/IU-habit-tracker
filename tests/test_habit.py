@@ -16,11 +16,11 @@ def test_add_habit():
     hb.add_habit("Swim", 7, '2023-01-08 01:00:00', test=True)
     hb.add_habit("Programming", 1, '2023-01-04 01:00:00', test=True)
     hb.add_habit("Travel", 30, '2023-01-02 01:00:00', test=True)
-    assert db.get_habit(1) == (1, "Study", 1, '2023-01-01 01:00:00', None, 0)
-    assert db.get_habit(2) == (2, "Workout", 1, '2023-01-05 01:00:00', None, 0)
-    assert db.get_habit(3) == (3, "Swim", 7, '2023-01-08 01:00:00', None, 0)
-    assert db.get_habit(4) == (4, "Programming", 1, '2023-01-04 01:00:00', None, 0)
-    assert db.get_habit(5) == (5, "Travel", 30, '2023-01-02 01:00:00', None, 0)
+    assert db.get_habits() == [(1, "Study", 1, '2023-01-01 01:00:00', None, 0),
+                               (2, "Workout", 1, '2023-01-05 01:00:00', None, 0),
+                               (3, "Swim", 7, '2023-01-08 01:00:00', None, 0),
+                               (4, "Programming", 1, '2023-01-04 01:00:00', None, 0),
+                               (5, "Travel", 30, '2023-01-02 01:00:00', None, 0)]
 
 
 # test marking a daily habit as complete for 2 consecutive days
@@ -72,6 +72,15 @@ def test_mark_habit_as_complete():
     hb.mark_habit_as_complete(4, "2023-01-13 05:00:00", test=True)
     hb.mark_habit_as_complete(4, "2023-01-14 06:00:00", test=True)
     assert db.get_updated_streaks(4) == (4, 4, 0, 4)
+
+
+# test marking a monthly habit as complete for 2 times which has current streak of 0 and longest streak of 2
+def test_mark_monthly_habit_as_complete():
+    hb.mark_habit_as_complete(5, "2023-01-05 01:00:00", test=True)
+    # Use mock to simulate user input
+    with patch('builtins.input', return_value='y'):
+        hb.mark_habit_as_complete(5, "2023-02-01 01:00:00", test=True)
+    assert db.get_updated_streaks(5) == (5, 5, 0, 2)
 
 
 # test deleting a habit
