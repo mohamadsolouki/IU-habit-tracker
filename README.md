@@ -41,7 +41,7 @@ python main.py
 
 - You should see the main menu like this which asks you to use predefined data or use your own data:
 
-![Main menu](docs/main-menu.png)
+![Main menu](docs/main_menu.png)
 
 ### Run tests
 
@@ -54,7 +54,7 @@ pytest .
 
 You should see something like this if all the tests are successful:
 
-![Command Output](docs/success_test.png)
+![Command Output](docs/test.png)
 
 ---
 ## Usage
@@ -68,19 +68,23 @@ You can navigate through the options using the arrow keys and press enter to sel
 
 ### Mark habit as done
 
-![Mark habit as done](docs/mark_habit_done.png)
+![Mark habit as done](docs/mark_habit.png)
 
 ### Delete habits
 
-![Delete habits](docs/delete_habits.png)
+![Delete habits](docs/delete_habit.png)
+
+### Insert predefined data
+
+![Insert predefined data](docs/predefined.png)
 
 ### Habits to do
 
-![Habits to do](docs/habits_to_do.png)
+![Habits to do](docs/todo.png)
 
 ### Analytics
 
-![Analytics](docs/analytics.png)
+![Analytics](docs/analyze.png)
 ---
 
 ## Author
