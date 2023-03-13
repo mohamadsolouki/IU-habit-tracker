@@ -6,6 +6,7 @@ Functional Programming at the IU university of applied science.**
 ## Installation
 
 #### This application requires Python version >= 3.7
+For the installation of Python, you can follow the instructions in the following [link](https://www.python.org/downloads/)
 
 ### Install IU Habit Tracker
 
