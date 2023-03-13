@@ -208,8 +208,7 @@ class Database:
     @staticmethod
     def clear_databases():
         """
-        This function is used to drop both databases.
-        It is used for testing purposes.
+        This function is used to clear all the data from the habits' database.
         """
         # connect to the habits database
         conn = sqlite3.connect("db_files/habits.db")
@@ -221,22 +220,6 @@ class Database:
             return
 
         # delete all the data from the habits database then commit the changes and close the connection.
-        c.execute("DELETE FROM habits")
-        c.execute("DELETE FROM completions")
-        c.execute("DELETE FROM streaks")
-        conn.commit()
-        conn.close()
-
-        # connect to the test database
-        conn = sqlite3.connect("db_files/test.db")
-        c = conn.cursor()
-
-        # check if the test database exists
-        c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='habits'")
-        if not c.fetchone():
-            return
-
-        # delete all the data from the test database then commit the changes and close the connection.
         c.execute("DELETE FROM habits")
         c.execute("DELETE FROM completions")
         c.execute("DELETE FROM streaks")
