@@ -49,8 +49,7 @@ You should see something like this if all the tests are successful:
 
 ### Run habit tracker
 
-- Switch to parent folder "IU-habit-tracker-master"
-- Run the main.py
+- On the parent folder "IU-habit-tracker-master", Run main.py
 
 ``` sh
 python main.py
