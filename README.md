@@ -37,7 +37,7 @@ pip install -r requirements.txt
 - On the parent directory of project, Run pytest
 
 ``` sh
-pytest .
+pytest -v
 ```
 
 You should see something like this if all the tests are successful:
