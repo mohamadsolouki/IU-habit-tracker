@@ -34,8 +34,7 @@ pip install -r requirements.txt
 
 ## Run tests
 
-- Switch to the "tests" folder
-- Run pytest
+- On the parent directory of project, Run pytest
 
 ``` sh
 pytest .
