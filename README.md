@@ -12,7 +12,7 @@ Functional Programming at the IU university of applied science.**
 ### Install IU Habit Tracker
 
 - Download the latest version of IU habit tracker from 
-[here](https://github.com/mohamadsolouki/IU-habit-tracker/archive/refs/heads/main.zip) or clone the repository 
+[here](https://github.com/mohamadsolouki/IU-habit-tracker/archive/refs/tags/v1.0.zip) or clone the repository 
 - unzip the file and go to the "IU-habit-tracker-master" directory
 - Create a python virtual environment
 
