@@ -119,7 +119,7 @@ def main():
     elif action == 'predefined':
         ask = questionary.confirm("Do you want to insert predefined habits into database?").ask()
         if ask is True:
-            db.clear_databases()
+            db.clear_database()
             db.insert_test_data()
             print(termcolor.colored("Predefined habits inserted successfully!", "green"))
             ask_to_continue()

@@ -206,7 +206,7 @@ class Database:
         conn.close()
 
     @staticmethod
-    def clear_databases():
+    def clear_database():
         """
         This function is used to clear all the data from the habits' database.
         """
