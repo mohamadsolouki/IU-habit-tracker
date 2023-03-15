@@ -55,11 +55,11 @@ You should see something like this if all the tests are successful:
 python main.py
 ```
 
-- You should see the main menu like this which asks you to use predefined data or use your own data:
+- You should see the main menu like picture below, and you can navigate through the options using the arrow keys and press enter to select an option.
+
 
 ![Main menu](docs/main_menu.png)
 
-You can navigate through the options using the arrow keys and press enter to select an option.
  
 ### Add habit
 - You can add a habit by entering the name of the habit and the period of the habit.
